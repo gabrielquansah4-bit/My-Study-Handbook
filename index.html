@@ -705,118 +705,243 @@ function revisedQuestionSet(c,s,t){
 function buildChoiceQuestions(c,s,t,data){
  const low=t.toLowerCase();
  const contexts=['at home','in class','at a market','in a school garden','during a group activity','in the community','while revising','during a practical lesson','in a small shop','at a school club'];
- let bank=[];
- const add=(q,opts,correct,why)=>bank.push({q,opts,correct,why});
- if(s==='Mathematics'){
-  if(/count|number|numeration|real number|place value/.test(low)){
-   add('What does the position of a digit help us know?',['Its place value','Its colour','Its shape','Who wrote it'],0,'A digit’s position determines its place value.');
-   add('Which is the best way to compare two whole numbers?',['Look at the digits from the greatest place value first','Count the letters in their names','Always choose the number with more even digits','Add the two numbers first'],0,'Compare place values from left to right.');
-   add('What is a number line useful for?',['Showing order and distance between numbers','Measuring the weight of a bag','Naming computer parts','Showing the colour of objects'],0,'A number line shows number order and relative position.');
-   add('A pupil groups 24 counters into groups of ten and ones. Which description is correct?',['2 tens and 4 ones','4 tens and 2 ones','24 tens and 0 ones','2 ones and 4 tens'],0,'Twenty-four contains two tens and four ones.');
-  } else if(/fraction|decimal|percentage|percent/.test(low)){
-   add('In a fraction, what does the denominator show?',['The total number of equal parts in the whole','The number of parts selected only','The answer to every addition','The unit of length'],0,'The denominator names how many equal parts make the whole.');
-   add('Which fraction is equivalent to one half?',['2/4','1/3','3/5','2/3'],0,'Two quarters and one half have the same value.');
-   add('What does 25% mean?',['25 out of every 100','25 added to every number','100 out of 25','One thousand'],0,'Percent means per hundred.');
-   add('A whole is divided into four equal parts and one part is shaded. What fraction is shaded?',['1/4','4/1','1/2','3/4'],0,'One of four equal parts is one quarter.');
-  } else if(/ratio|proportion|rate/.test(low)){
-   add('What does a ratio compare?',['Two or more quantities','Only colours','The spelling of words','The weight of air only'],0,'A ratio compares quantities.');
-   add('If a recipe is doubled, what should happen to each ingredient?',['Each ingredient amount is multiplied by 2','Only one ingredient changes','All amounts are divided by 2','The ingredients are ignored'],0,'Doubling a recipe means multiplying each amount by two.');
-   add('Which is a rate?',['60 kilometres per hour','5 red counters to 2 blue counters','A triangle has 3 sides','The number 12 alone'],0,'A rate compares quantities with different units.');
-   add('Why should quantities be changed to the same unit before simplifying a ratio?',['So the comparison is fair and accurate','To make the numbers look bigger','Because units never matter','To avoid calculating'],0,'The same units are needed for a valid comparison.');
-  } else if(/pattern|algebra|equation|expression|unknown|function|formula|graph|relation/.test(low)){
-   add('What is a pattern rule?',['A description of how the pattern changes','A random guess','A shape’s colour','A calculator battery'],0,'A pattern rule explains how terms are formed.');
-   add('If a sequence is 2, 4, 6, 8, what comes next?',['10','9','12','6'],0,'The sequence increases by 2 each time.');
-   add('If x + 3 = 8, what is x?',['5','11','3','8'],0,'Subtract 3 from both sides: x = 5.');
-   add('Why do we check a solution by substituting it back into an equation?',['To see whether it makes the original equation true','To change the question','To remove all numbers','To make the equation longer'],0,'Substitution confirms whether the answer satisfies the equation.');
-  } else if(/data|statistics|probability|chance/.test(low)){
-   add('Why should data be organised in a table or chart?',['To make patterns and comparisons easier to see','To hide the results','To change the results','To make the data less accurate'],0,'Tables and charts organise information for interpretation.');
-   add('What should a good chart include?',['A clear title and labelled axes or categories','Only decorative pictures','No labels','A hidden scale'],0,'Titles and labels help readers understand the data.');
-   add('What is the mean of 2, 4 and 6?',['4','2','6','12'],0,'The total is 12 and 12 ÷ 3 = 4.');
-   add('For a fair coin, which statement is true?',['Heads and tails are equally likely','Heads is always certain','Tails cannot happen','Both outcomes happen every time'],0,'A fair coin gives heads and tails equal chances.');
-  } else if(/money|financial|budget|profit|loss|interest/.test(low)){
-   add('Why is it useful to make a budget?',['To plan income and spending','To spend without checking','To hide all prices','To guarantee free items'],0,'A budget helps plan how money will be used.');
-   add('An item costs GH₵12 and you pay GH₵20. What change should you receive?',['GH₵8','GH₵32','GH₵12','GH₵10'],0,'20 − 12 = 8 cedis.');
-   add('What is profit?',['Money gained when income is greater than cost','The full cost of every item','Money borrowed only','A type of measurement unit'],0,'Profit is the amount left after costs are subtracted from income.');
-   add('What should you do before deciding which of two offers is cheaper?',['Compare the prices and quantities using the same units','Choose the brightest package','Ignore the quantities','Assume the larger package is always cheaper'],0,'Fair comparisons consider both price and quantity.');
-  } else {
-   add('What is a sensible first step when solving a mathematics problem?',['Identify what is known and what must be found','Guess without reading','Ignore the units','Write any operation'],0,'Understanding the given information and goal helps choose a method.');
-   add('Why is it helpful to estimate an answer first?',['To judge whether the final answer is reasonable','To avoid doing any working','To guarantee every answer is exact','To replace all measurements'],0,'An estimate gives a rough check on the result.');
-   add('A pupil’s answer is different from a classmate’s. What is a good next step?',['Compare the working and check the calculation','Erase both answers immediately','Choose the longer answer','Stop thinking about the problem'],0,'Checking each step helps locate possible errors.');
-   add('When should you write units such as cm or kg?',['When the answer describes a measured quantity','Only when the answer is zero','Never','Only in Computing'],0,'Units show what a measurement means.');
-  }
- } else if(s==='Science'){
-  if(/material|matter|property|solid|liquid|gas|diversity/.test(low)){
-   add('Which property helps you choose a material for a towel?',['Absorbency','Transparency','Magnetism only','Ability to produce sound'],0,'A towel should absorb water.');
-   add('Which material is usually transparent?',['Clear glass','Thick wood','Cardboard','A metal spoon'],0,'Clear glass allows light to pass through.');
-   add('Why should you never taste an unknown material during an investigation?',['It may be harmful or poisonous','It will always be sweet','It makes the experiment faster','It improves every result'],0,'Unknown materials may be unsafe to ingest.');
-   add('Which statement about materials is correct?',['Materials have properties that affect their uses','All materials have identical properties','Only expensive materials are useful','A material has no observable features'],0,'Properties help determine which materials suit particular purposes.');
-  } else if(/living|plant|animal|habitat|environment|ecosystem|human body|health|disease/.test(low)){
-   add('Which set contains basic needs of most plants?',['Water, light and suitable air','Plastic, glass and metal','Only darkness','Only sound'],0,'Most plants need water, light and air, as well as suitable growing conditions.');
-   add('What is a habitat?',['The place where an organism lives','A tool for measuring time','A type of computer file','A food group'],0,'A habitat is the natural home or environment of an organism.');
-   add('Which action helps reduce the spread of many germs?',['Washing hands with soap and clean water','Sharing dirty towels','Leaving rubbish near food','Drinking unsafe water'],0,'Handwashing helps remove germs and reduce transmission.');
-   add('Why should rubbish be disposed of properly?',['To help keep surroundings clean and reduce health risks','To attract pests','To block drains','To pollute water'],0,'Proper waste disposal supports sanitation and community health.');
-  } else if(/force|energy|light|sound|electric|magnet|motion/.test(low)){
-   add('What can a force do to an object?',['Change its motion or shape','Change its name only','Make it invisible every time','Remove its mass automatically'],0,'A force can change motion, direction or shape.');
-   add('Which object is a source of light?',['The Sun','A closed book','A wooden desk','A plastic ruler'],0,'The Sun produces its own light.');
-   add('Which action is safest when investigating electricity?',['Follow the teacher’s instructions and avoid exposed wires','Touch bare wires to test them','Use wet hands with plugs','Open a powered socket'],0,'Electrical investigations must use safe equipment and adult guidance.');
-   add('What is a fair test?',['A test where relevant conditions are controlled so results can be compared','A test where results are changed to fit a guess','A test without observations','A test where every factor changes at once'],0,'A fair test controls variables so the effect of a change can be assessed.');
-  } else if(/cycle|water|earth|space|weather|season|solar|moon|sun/.test(low)){
-   add('What is a cycle?',['A sequence of stages that repeats','A single event that can never happen again','A measuring tool only','A type of rock'],0,'A cycle repeats through stages.');
-   add('What causes day and night on Earth?',['Earth rotating on its axis','The Moon switching the Sun off','Clouds moving around Earth','Earth stopping completely'],0,'Earth’s rotation makes places face toward and away from the Sun.');
-   add('Which action helps conserve water?',['Turn off a tap when it is not needed','Leave taps running','Pour clean water into drains for fun','Ignore leaking pipes'],0,'Turning off unused taps reduces waste.');
-   add('Why record weather observations over several days?',['To notice patterns and changes','To guarantee the weather never changes','To replace all measurements with guesses','To stop clouds forming'],0,'Repeated observations help identify patterns in weather.');
-  } else {
-   add('What should you do first when investigating a science question?',['State the question and make a prediction','Change the results before testing','Ignore safety','Write a conclusion without evidence'],0,'A clear question and prediction help guide an investigation.');
-   add('Why should observations be recorded honestly?',['So conclusions are based on what actually happened','So the results match the prediction','So mistakes cannot be found','So evidence is unnecessary'],0,'Reliable science depends on accurate observations.');
-   add('What is evidence?',['Information or observations that support or challenge an explanation','A random guess only','A decorative drawing','A conclusion chosen before a test'],0,'Evidence is used to evaluate explanations.');
-   add('What should you do if results do not support your prediction?',['Report the results honestly and reconsider the explanation','Change the results','Hide the measurements','Claim the test proved the prediction'],0,'Scientific explanations should follow the evidence, even when it differs from a prediction.');
-  }
- } else {
-  if(/cyber|safety|ethic|privacy|citizenship|responsible|password|security/.test(low)){
-   add('Which is the safest way to handle a password?',['Keep it private and do not share it with friends','Post it publicly','Use the same easy password everywhere','Send it to strangers who ask'],0,'Passwords protect accounts and should be kept private.');
-   add('A stranger online asks for your home address. What should you do?',['Do not share it; tell a trusted adult if concerned','Send it immediately','Post it on a public page','Ask the stranger for their password'],0,'Personal information should not be shared with unknown people.');
-   add('What should you do before opening a suspicious link?',['Avoid clicking and check with a trusted adult or teacher','Click quickly','Enter your password first','Forward it to everyone'],0,'Suspicious links may lead to scams or harmful content.');
-   add('What does responsible digital citizenship include?',['Respecting others and protecting personal information','Bullying people online','Copying any work without credit','Sharing private photos without permission'],0,'Responsible use includes respect, privacy and honesty.');
-  } else if(/algorithm|program|coding|computational thinking|flowchart/.test(low)){
-   add('What is an algorithm?',['A clear sequence of steps to solve a problem','A computer screen only','A random collection of buttons','A type of printer'],0,'An algorithm gives ordered steps for a task or problem.');
-   add('What does debugging mean?',['Finding and correcting errors in a program or process','Deleting every file','Turning off the monitor','Changing the computer’s colour'],0,'Debugging is the process of locating and fixing errors.');
-   add('Why should an algorithm be tested?',['To check that it works for expected inputs','To make it longer','To prevent anyone understanding it','To avoid finding mistakes'],0,'Testing helps reveal errors and check whether the solution works.');
-   add('Which is the best way to describe a task to a computer?',['Give clear, ordered instructions','Use vague hints only','Change the goal halfway without explanation','Leave out important steps'],0,'Computers follow instructions, so steps must be clear and ordered.');
-  } else if(/spreadsheet|data|database|information/.test(low)){
-   add('What is a spreadsheet useful for?',['Organising data and performing calculations','Washing computer parts','Protecting a laptop from rain','Replacing every type of software'],0,'Spreadsheets organise data and can calculate results with formulas.');
-   add('In a spreadsheet, what is a cell?',['The box where a row and column meet','The whole computer','A type of password','A printed page only'],0,'A cell is the intersection of a row and a column.');
-   add('Why should data be checked before using it?',['Incorrect data can lead to incorrect results','Checking always deletes data','Data never contains mistakes','It makes a keyboard faster'],0,'Accurate input is important for reliable outputs.');
-   add('Which is a good way to protect private data?',['Only collect and share what is needed with permission','Publish everyone’s details','Leave accounts open to anyone','Use another person’s account secretly'],0,'Privacy means handling personal information carefully and appropriately.');
-  } else if(/internet|network|web|communication/.test(low)){
-   add('What is the internet?',['A global network connecting many computers and devices','A single keyboard','A word-processing tool only','A computer battery'],0,'The internet connects networks and devices worldwide.');
-   add('How can you judge whether an online claim is reliable?',['Check the source and compare with trusted sources','Believe it because it has a picture','Share it before reading','Trust every unknown message'],0,'Source-checking helps identify inaccurate or misleading claims.');
-   add('What should you do when using someone else’s work online?',['Give credit and follow copyright or permission rules','Claim it as your own','Remove the author’s name','Assume all work is free to copy'],0,'Acknowledging creators respects ownership and copyright.');
-   add('Which action supports respectful online communication?',['Use polite language and avoid sharing hurtful messages','Send insults','Share rumours about classmates','Post private messages without permission'],0,'Respectful communication protects others and supports a safer online community.');
-  } else {
-   add('What is hardware?',['The physical parts of a computer','A computer program only','A website password','A file name only'],0,'Hardware refers to physical computer components.');
-   add('Which is an example of software?',['A word-processing application','A keyboard','A monitor','A mouse'],0,'Software is a program or set of instructions run by a device.');
-   add('What is a good first step when using a new digital tool?',['Identify the task and choose the appropriate tool','Click every button at random','Share your password','Ignore the instructions'],0,'Start by understanding the task and selecting a suitable tool.');
-   add('Why should you save your work regularly?',['To reduce the risk of losing changes','To make the screen brighter','To delete the file automatically','To stop the computer processing'],0,'Saving helps preserve your work.');
-  }
- }
- // Create 50 beginner-friendly items by varying the contexts and skill focus of a core set.
- const core=bank.slice();
- const levels=['Easy','Easy','Easy','Easy','Easy','Easy','Easy','Easy','Easy','Easy','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Medium','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge','Challenge'];
- const output=[];
+ const items=[];
+ const add=(q,opts,correct,explanation,level)=>items.push({q,options:opts,correct,explanation,level});
+ const levelFor=i=>i<10?'Easy':i<30?'Medium':'Challenge';
+ const uniq=(arr)=>[...new Set(arr.map(String))];
+ const mc=(q,correct,distractors,explanation,i)=>{
+   let opts=uniq([correct,...distractors]).slice(0,4);
+   while(opts.length<4)opts.push(`Another option (${opts.length+1})`);
+   // Rotate answer positions in a predictable way so the correct answer is not always A.
+   const shift=i%4; const rotated=opts.map((_,j)=>opts[(j+shift)%opts.length]);
+   add(q,rotated,(opts.indexOf(String(correct))-shift+opts.length)%opts.length,explanation,levelFor(i));
+ };
  for(let i=0;i<50;i++){
-   const src=core[i%core.length];
-   let q=src.q;
-   if(i>=core.length){
-     const variant=(Math.floor(i/core.length));
-     const prefixes=[`While studying ${t.toLowerCase()}, `,`A learner revising ${t.toLowerCase()} asks: `,`In a school or community situation involving ${t.toLowerCase()}, `,`During a lesson on ${t.toLowerCase()}, `];
-     q=prefixes[(variant-1)%prefixes.length]+q.charAt(0).toLowerCase()+q.slice(1);
+   const group=Math.floor(i/10), k=i%10, ctx=contexts[(i*3)%contexts.length];
+   if(s==='Mathematics'){
+     if(/fraction|decimal|percentage|percent/.test(low)){
+       const den=[2,3,4,5,8][group], num=[1,1,3,2,5][group];
+       const qs=[
+        [`A shape is divided into ${den} equal parts and ${Math.min(num,den)} part(s) are shaded. Which fraction represents the shaded part(s)?`,`${Math.min(num,den)}/${den}`,[`1/${den}`,`${den}/${Math.min(num,den)}`,`${Math.max(0,den-Math.min(num,den))}/${den}`],`A fraction compares the selected equal parts with the total equal parts.`],
+        [`Which fraction is equivalent to ${1}/${den}?`,`${2}/${den*2}`,[`${1}/${den+1}`,`${2}/${den}`,`${den}/1`],`Multiplying the numerator and denominator by the same number gives an equivalent fraction.`],
+        [`What is ${[10,20,25,50,75][group]}% of ${[50,60,80,40,200][group]}?`,String(([10,20,25,50,75][group]/100)*[50,60,80,40,200][group]),[String(([10,20,25,50,75][group]/100)*[50,60,80,40,200][group]+5),String(Math.max(0,([10,20,25,50,75][group]/100)*[50,60,80,40,200][group]-5)),String([50,60,80,40,200][group])],`A percentage means “out of 100”; multiply the quantity by the percentage divided by 100.`],
+        [`Which decimal is equal to ${[1,2,3,4,7][group]}/10?`,`0.${[1,2,3,4,7][group]}`,[`0.0${[1,2,3,4,7][group]}`,`${[1,2,3,4,7][group]}.0`,`0.${10-[1,2,3,4,7][group]}`],`Tenths are written in the first place after the decimal point.`],
+        [`A learner eats ${[1,2,1,3,2][group]}/${[4,5,3,8,6][group]} of a snack. What does the denominator tell us?`,'The number of equal parts in the whole',['The number of parts eaten only','The number of snacks left','The size of the plate'],`The denominator tells how many equal parts make up the whole.`],
+        [`Which method can help compare two fractions?`,'Use equivalent fractions or a common denominator',['Compare only the colours of the diagrams','Ignore the denominators','Always choose the fraction with the larger denominator'],`Equivalent fractions or a common denominator can make fraction comparison easier.`],
+        [`A bottle is ${[0.25,0.5,0.75,0.2,0.4][group]} full. Which percentage matches this amount?`,`${[25,50,75,20,40][group]}%`,[`${[20,40,50,75,25][group]}%`,`100%`,`5%`],`Convert a decimal to a percentage by multiplying it by 100.`],
+        [`Which fraction is in its simplest form?`,['1/2','2/4','3/9','4/8'][group%4],['2/6','4/10','6/12','8/16'].filter(x=>x!==['1/2','2/4','3/9','4/8'][group%4]).slice(0,3),`A fraction is simplest when its numerator and denominator have no common factor greater than 1.`],
+        [`A recipe uses ${group+1}/4 cup of water. If the amount is doubled, how much water is needed?`,`${2*(group+1)}/4 cup`,[`${group+1}/8 cup`,`${group+1}/2 cup`,`${group+2}/4 cup`],`Doubling a fraction means multiplying its numerator by 2, then simplifying if possible.`],
+        [`Which number is halfway between 0 and 1?`,'0.5',['0.1','0.25','0.75'],`One half is written as 0.5 or 50%.`]
+       ][k]; mc(...qs,i);
+     } else if(/money|financial|budget|profit|loss|interest/.test(low)){
+       const price=10+group*5+k*2, paid=price+5+(k%3)*5;
+       const qs=[
+        [`An item costs GH₵${price}. You pay GH₵${paid}. What change should you receive?`,`GH₵${paid-price}`,[`GH₵${paid+price}`,`GH₵${price}`,`GH₵${Math.max(0,paid-price-2)}`],`Change = amount paid − cost: ${paid} − ${price} = ${paid-price}.`],
+        [`A seller buys an item for GH₵${price} and sells it for GH₵${price+group+3}. What is the profit?`,`GH₵${group+3}`,[`GH₵${price+group+3}`,`GH₵${price}`,`GH₵${group+price+6}`],`Profit = selling price − cost price.`],
+        [`You have GH₵${20+group*10} and save GH₵${5+group*2}. How much is left to spend?`,`GH₵${15+group*8}`,[`GH₵${25+group*12}`,`GH₵${5+group*2}`,`GH₵${20+group*10}`],`Money left = total money − amount saved.`],
+        [`Why is a budget useful when planning a class activity?`,'It helps compare expected income and expenses',['It guarantees unlimited money','It removes the need to record spending','It makes all items free'],`A budget helps people plan spending and avoid spending more than available.`],
+        [`Three exercise books cost GH₵${price} each. What is the total cost?`,`GH₵${price*3}`,[`GH₵${price+3}`,`GH₵${price*2}`,`GH₵${price*4}`],`Multiply the price of one book by the number of books.`],
+        [`A shop reduces a GH₵${price*2} item by GH₵${5+group}. What is the new price?`,`GH₵${price*2-(5+group)}`,[`GH₵${price*2+(5+group)}`,`GH₵${5+group}`,`GH₵${price*2}`],`Subtract the discount from the original price.`],
+        [`Which record best helps a shopkeeper check daily sales?`,'A dated sales record with amounts',['A list of favourite colours','A blank page','A list with no prices'],`Clear dated records help track transactions and identify errors.`],
+        [`If your weekly budget is GH₵${30+group*10} and you spend GH₵${10+group*3}, how much remains?`,`GH₵${20+group*7}`,[`GH₵${40+group*13}`,`GH₵${10+group*3}`,`GH₵${30+group*10}`],`Subtract the amount spent from the budget.`],
+        [`Why should you compare the price and quantity of two similar products?`,'To identify better value fairly',['To always choose the largest packet','To ignore the price','To avoid checking units'],`Value comparisons should consider both the price and the amount received.`],
+        [`A receipt shows why and how much money was paid. Why keep it?`,'It provides a record of the transaction',['It changes the price afterwards','It guarantees a profit','It replaces all stock records'],`Receipts help verify purchases and resolve disagreements.`]
+       ][k]; mc(...qs,i);
+     } else if(/pattern|algebra|equation|expression|unknown|function|formula|graph|relation/.test(low)){
+       const x=group+2, start=2+group*2, step=2+group;
+       const qs=[
+        [`A sequence starts ${start}, ${start+step}, ${start+2*step}. What is the next term?`,String(start+3*step),[String(start+step*2+1),String(start+4*step),String(start+3*step-1)],`The sequence increases by ${step} each time.`],
+        [`If x + ${x} = ${x+8}, what is x?`,'8',[String(x+8),String(x),String(8+x*2)],`Subtract ${x} from both sides to find x.`],
+        [`If ${x}y = ${x*6}, what is y?`,'6',[String(x),String(x*6),String(6+x)],`Divide both sides by ${x}.`],
+        [`Which expression means “${x} more than n”?`,`n + ${x}`,[`${x}n`,`n − ${x}`,`${x} − n`],`“More than” indicates addition.`],
+        [`If y = 2x + 1 and x = ${group+2}, what is y?`,String(2*(group+2)+1),[String(2*(group+2)),String(group+3),String(2*(group+2)+2)],`Substitute the value of x into the formula, then calculate.`],
+        [`A pattern has ${start}, ${start+step}, ${start+2*step}, ... Which rule describes it?`,`Add ${step} each time`,[`Subtract ${step} each time`,`Multiply by ${step} each time`,'Add 1 each time'],`Compare consecutive terms to identify the change.`],
+        [`Which value makes x − ${x} = ${x+1} true?`,String(2*x+1),[String(x+1),String(2*x),String(x)],`Add ${x} to both sides of the equation.`],
+        [`What does a variable represent in an expression?`,'A value that can change or is not yet known',['A punctuation mark','A fixed unit of length','An answer that must be zero'],`A variable is a symbol for a number or value.`],
+        [`Why should you substitute a solution into the original equation?`,'To check that the equation is true',['To make the equation longer','To remove the variable without calculation','To change the question'],`A correct solution makes the original equation true.`],
+        [`If a graph rises from left to right, what does it usually show?`,'The plotted value increases as the horizontal value increases',['Both values must be zero','The graph has no information','The values cannot be compared'],`A rising graph generally indicates an increasing relationship.`]
+       ][k]; mc(...qs,i);
+     } else if(/data|statistics|probability|chance|chart|graph/.test(low)){
+       const a=2+group,b=4+group,cval=6+group;
+       const qs=[
+        [`What is the mean of ${a}, ${b} and ${cval}?`,String((a+b+cval)/3),[String(a+b+cval),String(b),String(cval)],`Mean = total of the values ÷ number of values.`],
+        [`Which is the best title for a chart showing pupils’ favourite fruits?`,'Pupils’ Favourite Fruits',['How to Repair a Bicycle','Weather on Mars','Parts of a Computer'],`A chart title should tell readers what information is shown.`],
+        [`Why must chart axes or categories be labelled?`,'So readers know what the data represents',['To make the chart harder to read','To hide the values','Labels are never useful'],`Labels explain what each axis or category means.`],
+        [`A fair coin is tossed once. What is the chance of getting heads?`,'1 out of 2',['Certain every time','Impossible','1 out of 10'],`A fair coin has two equally likely outcomes.`],
+        [`A class has ${10+group} learners, and ${4+group} choose football. How many choose another activity?`,String(6),[String(14+group),String(4+group),String(10+group)],`Subtract the number choosing football from the total; here the total and selected number differ by 6.`],
+        [`Which measure is the middle value after data are ordered?`,'Median',['Mean','Range','Mode'],`The median is the middle value in an ordered list.`],
+        [`Which measure tells the value that appears most often?`,'Mode',['Median','Range','Mean'],`The mode is the most frequent value.`],
+        [`Why should a survey question be clear and fair?`,'To reduce confusion and biased responses',['To force everyone to give the same answer','To hide the purpose','To change the results'],`Clear, neutral questions improve the quality of collected data.`],
+        [`A chart uses bars to compare categories. What should you compare?`,'The bar heights using the labelled scale',['The colours only','The width of the paper','The font size only'],`The scale and bar heights represent the values.`],
+        [`What does range tell us about a data set?`,'The difference between the largest and smallest values',['The most common value','The total number of categories','The middle value'],`Range = maximum value − minimum value.`]
+       ][k]; mc(...qs,i);
+     } else if(/shape|geometry|angle|perimeter|area|volume|length|mass|weight|capacity|measure|time|position|direction|transform|symmetry/.test(low)){
+       const qs=[
+        [`A rectangle is ${3+group} cm long and ${2+group} cm wide. What is its perimeter?`,`${2*((3+group)+(2+group))} cm`,[`${(3+group)*(2+group)} cm`,`${(3+group)+(2+group)} cm`,`${4*((3+group)+(2+group))} cm`],`Perimeter is the distance around a shape: add all four sides.`],
+        [`A rectangle is ${3+group} cm long and ${2+group} cm wide. What is its area?`,`${(3+group)*(2+group)} cm²`,[`${2*((3+group)+(2+group))} cm²`,`${(3+group)+(2+group)} cm²`,`${(3+group)*(2+group)*2} cm²`],`Area of a rectangle = length × width.`],
+        [`How many right angles are in a rectangle?`,'4',['2','3','6'],`Each corner of a rectangle is a right angle.`],
+        [`Which unit is suitable for measuring the length of a classroom?`,'metres',['millilitres','kilograms','degrees Celsius'],`Metres are suitable for measuring room lengths.`],
+        [`Which tool is best for measuring an angle?`,'A protractor',['A weighing scale','A thermometer','A measuring jug'],`A protractor measures angles in degrees.`],
+        [`How many minutes are in ${1+group} hour(s)?`,String((1+group)*60),[String((1+group)*100),String((1+group)*30),String((1+group)*24)],`One hour has 60 minutes.`],
+        [`Which shape has exactly three sides?`,'Triangle',['Square','Pentagon','Circle'],`A triangle has three straight sides.`],
+        [`What does symmetry mean for a shape?`,'One part matches another when reflected across a line',['It has no sides','It must be a circle','It always has four corners'],`A line of symmetry divides a shape into matching mirror-image parts.`],
+        [`Which unit is most suitable for the mass of a bag of rice?`,'kilograms',['centimetres','litres','seconds'],`Kilograms measure mass.`],
+        [`Why should you include units in a measurement answer?`,'They explain what the number measures',['They make every number larger','They replace the calculation','They are only decorations'],`Units give meaning to a measured number.`]
+       ][k]; mc(...qs,i);
+     } else {
+       const a=12+group*3+k,b=3+group+(k%3), sum=a+b;
+       const qs=[
+        [`What is ${a} + ${b}?`,String(sum),[String(sum+1),String(a-b),String(sum+10)],`Add the two numbers: ${a} + ${b} = ${sum}.`],
+        [`What is ${a+b} − ${b}?`,String(a),[String(a+b),String(a-1),String(b)],`Subtraction finds the difference: ${a+b} − ${b} = ${a}.`],
+        [`There are ${b} groups with ${a%6+2} items in each group. How many items are there altogether?`,String(b*(a%6+2)),[String(b+(a%6+2)),String(b*(a%6+2)+2),String(a%6+2)],`Multiply the number of groups by the number in each group.`],
+        [`Which is the best first step in a word problem?`,'Identify what is known and what must be found',['Choose an operation without reading','Ignore the units','Write any answer'],`Understand the information and goal before choosing a method.`],
+        [`Why is estimating an answer useful?`,'It helps check whether the answer is reasonable',['It always gives the exact answer','It removes the need to calculate','It changes the problem'],`An estimate provides a quick reasonableness check.`],
+        [`Which answer is even?`,String(2*(group+k+2)),[String(2*(group+k+2)+1),String(2*(group+k+2)+3),String(2*(group+k+2)+5)],`Even numbers can be divided by 2 with no remainder.`],
+        [`What should you do if your answer seems too large?`,'Check the working and the operation',['Ignore it','Change the question','Hide the working'],`Reviewing the steps can reveal calculation or interpretation errors.`],
+        [`A learner has ${a} counters and gives ${b} away. How many remain?`,String(a-b),[String(a+b),String(b),String(a-b-1)],`Subtract the counters given away from the starting amount.`],
+        [`Which method helps explain a solution clearly?`,'Show steps and state what the answer means',['Write only a number with no context','Skip all working','Copy another answer without checking'],`Clear working lets others follow and check the reasoning.`],
+        [`What is the best way to check a calculation?`,'Use an inverse operation or a second method',['Repeat the same mistake','Remove the units','Assume the first answer is correct'],`An inverse operation or independent check can expose mistakes.`]
+       ][k]; mc(...qs,i);
+     }
+   } else if(s==='Science'){
+     if(/plant|animal|living|habitat|environment|ecosystem|human body|health|disease|food|nutrition|organism/.test(low)){
+       const qs=[
+        [`Which set contains basic needs of most green plants?`,'Water, light and air',['Plastic, glass and metal','Only darkness','Only sound'],`Most green plants need water, light, air and suitable conditions to grow.`],
+        [`What is a habitat?`,'The place where an organism lives',['A tool for measuring time','A type of computer file','A food group'],`A habitat is the place or environment where an organism lives.`],
+        [`Which action helps reduce the spread of many germs?`,'Washing hands with soap and clean water',['Sharing dirty towels','Leaving rubbish near food','Drinking unsafe water'],`Handwashing helps remove germs and reduce transmission.`],
+        [`Why should rubbish be disposed of properly?`,'To keep surroundings clean and reduce health risks',['To attract pests','To block drains','To pollute water'],`Good waste disposal supports sanitation and reduces hazards.`],
+        [`Which part of a plant usually absorbs water from the soil?`,'Roots',['Flower petals','Fruit skin','Seeds only'],`Roots absorb water and minerals from the soil.`],
+        [`Why do animals need food?`,'For energy, growth and repair',['Only to change colour','To stop needing water','To avoid breathing'],`Food supplies energy and materials for growth and repair.`],
+        [`Which is an example of a food chain?`,'Grass → grasshopper → frog',['Rock → water → sunlight','Chair → book → pencil','Cloud → plastic → glass'],`A food chain shows how energy passes as organisms eat other organisms.`],
+        [`What is one way to protect a local water source?`,'Keep rubbish and harmful chemicals out of it',['Dump waste beside it','Wash chemicals into it','Block it with rubbish'],`Preventing pollution helps protect water quality and living things.`],
+        [`Why is a balanced diet important?`,'It provides different nutrients needed by the body',['It contains only one type of food','It removes the need for water','It prevents all illnesses automatically'],`Different foods provide different nutrients needed for health.`],
+        [`Which observation is evidence that a seed has germinated?`,'A young root or shoot begins to grow',['The seed is painted','The seed is hidden in a box','The seed is counted twice'],`Germination begins when the seed starts growing, often showing a root or shoot.`]
+       ][k]; mc(...qs,i);
+     } else if(/material|matter|solid|liquid|gas|property|mixture|separat/.test(low)){
+       const qs=[
+        [`Which property helps a towel soak up water?`,'Absorbency',['Transparency','Magnetism only','Hardness only'],`Absorbency is the ability to take in liquid.`],
+        [`Which is usually a liquid at room temperature?`,'Water',['Stone','Oxygen','Wood'],`Water flows and takes the shape of its container.`],
+        [`What happens to ice when it is warmed enough?`,'It melts into liquid water',['It becomes wood','It disappears without changing','It turns directly into metal'],`Melting changes a solid into a liquid.`],
+        [`Which method can separate sand from water?`,'Filtration',['Magnetising the water','Freezing the sand only','Adding more sand'],`A filter lets water pass while retaining much of the solid sand.`],
+        [`Why is glass useful for some windows?`,'It can be transparent and allow light through',['It absorbs all light','It is always soft','It produces food'],`Transparent glass lets light pass so people can see through it.`],
+        [`Which material is attracted to a magnet?`,'Iron',['Paper','Rubber','Dry wood'],`Iron is magnetic; paper, rubber and wood are not attracted in the same way.`],
+        [`What is evaporation?`,'A liquid changing into a gas at its surface',['A gas becoming a solid only','A solid being cut into pieces','A liquid becoming a magnet'],`Evaporation occurs when particles escape from a liquid into the gas state.`],
+        [`Which action is safest when handling an unknown substance?`,'Follow instructions and never taste it',['Taste a little','Smell it closely without guidance','Mix it with any chemical'],`Unknown materials may be harmful; follow safety instructions.`],
+        [`Which property makes rubber useful for many tyres?`,'Flexibility and grip',['Ability to dissolve instantly','Transparency only','Ability to attract iron'],`Rubber can flex and provide grip, depending on its design.`],
+        [`What is a fair way to compare how absorbent two materials are?`,'Use the same amount of water and the same test method',['Use different amounts of water each time','Guess by colour only','Change several conditions without recording them'],`Keeping conditions the same makes the comparison fairer.`]
+       ][k]; mc(...qs,i);
+     } else if(/force|energy|light|sound|electric|magnet|motion|heat|temperature|simple machine/.test(low)){
+       const qs=[
+        [`What can a force do to an object?`,'Change its motion, direction or shape',['Change its name only','Make it invisible every time','Remove its mass automatically'],`A force can start or stop motion, change direction or change shape.`],
+        [`Which object produces its own light?`,'The Sun',['A closed book','A wooden desk','A plastic ruler'],`The Sun is a source of light.`],
+        [`Which action is safest when investigating electricity?`,'Follow the teacher’s instructions and avoid exposed wires',['Touch bare wires','Use wet hands with plugs','Open a powered socket'],`Electricity can cause serious injury; use only safe, supervised equipment.`],
+        [`Which is a source of sound?`,'A vibrating drum skin',['A silent picture','A cold stone that is not struck','A printed word'],`Sound is produced by vibrations.`],
+        [`What is one effect of friction?`,'It can slow moving objects',['It always creates light only','It removes gravity','It makes all surfaces smooth'],`Friction opposes relative motion between surfaces.`],
+        [`Which form of energy helps a lamp produce light?`,'Electrical energy',['Food only','Sound energy only','No energy is needed'],`A lamp converts electrical energy into light and heat.`],
+        [`Why does a shadow form?`,'An object blocks light from reaching a surface',['Sound bends around a chair','Air becomes solid','The object creates darkness everywhere'],`A shadow forms where light is blocked.`],
+        [`What should you do if an electrical device becomes unusually hot or smells burnt?`,'Stop using it and tell a responsible adult',['Pour water on it while connected','Keep using it','Open it while powered'],`Stop use and seek safe adult help; do not touch exposed electrical parts.`],
+        [`Which simple machine is a ramp an example of?`,'An inclined plane',['A pulley only','A battery','A thermometer'],`A ramp is an inclined plane that can make raising objects easier.`],
+        [`How can you make a simple test of a toy car’s travel fair?`,'Use the same surface and starting point each time',['Change the surface and slope every time','Push it differently for every trial','Record only the best result'],`A fair test keeps important conditions the same.`]
+       ][k]; mc(...qs,i);
+     } else if(/earth|space|weather|soil|rock|water cycle|sun|moon|planet|climate/.test(low)){
+       const qs=[
+        [`Which instrument measures air temperature?`,'Thermometer',['Rain gauge','Compass','Ruler'],`A thermometer measures temperature.`],
+        [`What does a rain gauge measure?`,'The amount of rainfall',['Wind direction','Air temperature','Length of a classroom'],`A rain gauge collects and measures rainfall.`],
+        [`What causes day and night on Earth?`,'Earth rotating on its axis',['The Moon making its own Sun','The Sun switching off every night','Clouds moving around Earth'],`Earth’s rotation causes places to face toward and away from the Sun.`],
+        [`Which action can help prevent soil erosion?`,'Keeping plant cover on the soil',['Removing all plants from slopes','Leaving bare soil exposed to heavy rain','Digging channels down every slope'],`Plant roots and ground cover help hold soil in place.`],
+        [`What happens during condensation in the water cycle?`,'Water vapour cools and forms liquid droplets',['Liquid water becomes rock','Ice becomes metal','Rain changes into sunlight'],`Condensation changes water vapour into liquid droplets.`],
+        [`Why are weather observations useful to farmers?`,'They help plan planting and other farm activities',['They guarantee no crops will fail','They change the seasons','They remove the need to inspect crops'],`Weather information can help farmers plan work and manage risks.`],
+        [`Which object is a natural satellite of Earth?`,'The Moon',['Mars','The Sun','Venus'],`The Moon orbits Earth as its natural satellite.`],
+        [`Which practice helps conserve water?`,'Repairing leaking taps',['Leaving taps running','Pouring clean water away unnecessarily','Damaging water pipes'],`Repairing leaks reduces wasted water.`],
+        [`What is one reason to plant trees?`,'They can provide shade and help protect soil',['They stop all rainfall','They make air unnecessary','They remove all insects'],`Trees can provide shade, habitat and help reduce soil erosion.`],
+        [`Why should a weather record include dates?`,'To compare conditions across different days',['To hide the measurements','To change the temperature','Dates are only decorations'],`Dates help identify patterns and compare observations over time.`]
+       ][k]; mc(...qs,i);
+     } else {
+       const qs=[
+        [`What should a learner do first when investigating a science question?`,'State a clear question and make a prediction',['Change results before testing','Ignore safety','Write a conclusion without evidence'],`A clear question and prediction help guide an investigation.`],
+        [`What is evidence?`,'Observations or information that support or challenge an explanation',['A random guess only','A decorative drawing','A conclusion chosen before a test'],`Evidence helps us evaluate whether an explanation is supported.`],
+        [`What should you do if results do not support your prediction?`,'Report the results honestly and reconsider the explanation',['Change the results','Hide the measurements','Claim the test proved the prediction'],`Scientific explanations should follow the evidence, even when it differs from a prediction.`],
+        [`Why should safety rules be followed during practical work?`,'To reduce the risk of harm',['To make the activity longer','To avoid recording results','To guarantee every prediction is correct'],`Safety rules protect learners and others during investigations.`],
+        [`Why should observations be recorded carefully?`,'So the evidence can be checked and compared',['So errors cannot be found','So evidence is unnecessary','So results match a prediction'],`Careful records make it easier to check and communicate results.`],
+        [`What makes a test fair?`,'Changing the factor being tested while keeping other important conditions the same',['Changing every condition at once','Recording only preferred results','Skipping measurements'],`A fair test helps identify which factor caused a change.`],
+        [`Which is an observation rather than an explanation?`,'The leaf feels dry',['The leaf is dry because it lacked water','The plant is unhappy','The soil must be poor'],`An observation describes what was noticed; an explanation suggests why it happened.`],
+        [`Why repeat a measurement or experiment when possible?`,'To check consistency and reduce the effect of accidental errors',['To force the expected result','To hide differences','To change the original question'],`Repeated trials can show whether results are consistent.`],
+        [`Which is the best conclusion after an investigation?`,'A statement that matches the evidence collected',['A claim chosen before the test','A claim that ignores unexpected results','A statement with no connection to results'],`A conclusion should be supported by the observations and measurements.`],
+        [`What should you do before using unfamiliar practical equipment?`,'Learn the safe and correct way to use it',['Use it as fast as possible','Ignore the labels','Let it run unattended'],`Understanding equipment use helps keep an investigation safe and reliable.`]
+       ][k]; mc(...qs,i);
+     }
+   } else {
+     if(/cyber|safety|ethic|privacy|citizenship|responsible|password|security/.test(low)){
+       const qs=[
+        [`Which is the safest way to handle a password?`,'Keep it private and do not share it with friends',['Post it publicly','Use the same easy password everywhere','Send it to strangers who ask'],`Passwords protect accounts and should be kept private.`],
+        [`A stranger online asks for your home address. What should you do?`,'Do not share it; tell a trusted adult if concerned',['Send it immediately','Post it publicly','Ask the stranger for their password'],`Personal information should not be shared with unknown people.`],
+        [`What should you do before opening a suspicious link?`,'Avoid clicking and check with a trusted adult or teacher',['Click quickly','Enter your password first','Forward it to everyone'],`Suspicious links may lead to scams or harmful content.`],
+        [`What does responsible digital citizenship include?`,'Respecting others and protecting personal information',['Bullying people online','Copying any work without credit','Sharing private photos without permission'],`Responsible use includes respect, privacy and honesty.`],
+        [`Why should you log out on a shared computer?`,'To help stop others accessing your account',['To delete the internet','To make the computer faster every time','To share your password'],`Logging out helps protect your account on shared devices.`],
+        [`A message asks you to send a verification code. What is safest?`,'Do not share it; check with the official service or a trusted adult',['Send it to anyone who asks','Post it in a group chat','Use it as your public username'],`Verification codes can give access to an account and should be kept private.`],
+        [`What should you do if someone bullies you online?`,'Save evidence, block or report where appropriate, and tell a trusted adult',['Reply with threats','Share their private details','Keep it secret no matter what'],`Reporting and seeking trusted support are safer than escalating the situation.`],
+        [`Why should an app request only necessary permissions?`,'To reduce unnecessary access to personal information',['To let every app read everything','To make passwords public','To remove all security'],`Limiting permissions supports privacy and data protection.`],
+        [`Which password is generally stronger?`,'A long, unique passphrase that is hard to guess',['123456','your first name only','password'],`Long, unique passwords are harder to guess; use a password manager if allowed.`],
+        [`What should you do with a hurtful message about a classmate?`,'Do not forward it; report it if needed',['Forward it to more people','Add insults','Post it publicly'],`Avoid spreading harm and use appropriate reporting channels.`]
+       ][k]; mc(...qs,i);
+     } else if(/algorithm|program|coding|computational thinking|flowchart/.test(low)){
+       const qs=[
+        [`What is an algorithm?`,'A clear sequence of steps to solve a problem',['A computer screen only','A random collection of buttons','A type of printer'],`An algorithm gives ordered steps for a task or problem.`],
+        [`What does debugging mean?`,'Finding and correcting errors in a program or process',['Deleting every file','Turning off the monitor','Changing the computer’s colour'],`Debugging is locating and fixing errors.`],
+        [`Why should an algorithm be tested?`,'To check that it works for expected inputs',['To make it longer','To prevent anyone understanding it','To avoid finding mistakes'],`Testing helps reveal errors and check whether the solution works.`],
+        [`Which instruction is clearest for a computer?`,'Repeat the step 5 times',['Do it a few times','Do it until it seems enough','Use the normal way'],`Precise instructions remove ambiguity.`],
+        [`In a flowchart, what does a decision usually do?`,'Chooses a path based on a condition',['Prints a page automatically','Stores all files permanently','Measures screen size'],`A decision checks a condition and branches based on the result.`],
+        [`What is a loop in a program?`,'Instructions that repeat',['A broken keyboard key','A computer cable','A printed chart'],`A loop repeats a set of instructions.`],
+        [`Why is it useful to break a large problem into smaller parts?`,'Each part is easier to understand and test',['It makes the problem impossible','It removes the need for planning','It guarantees there are no errors'],`Decomposition makes complex problems easier to manage.`],
+        [`A program gives the wrong output. What is a sensible next step?`,'Check the steps and test with a simple example',['Delete all work immediately','Ignore the result','Change the goal without checking'],`Testing with a simple example can help locate the error.`],
+        [`What is a variable used for in a program?`,'To store a value that may be used or changed',['To clean the screen','To connect the keyboard physically','To print paper without a printer'],`A variable names a value stored for use by a program.`],
+        [`Why should instructions be in the correct order?`,'Later steps may depend on earlier steps',['Order never affects results','It changes the computer’s shape','It removes the need for input'],`The order of instructions can affect the program’s output.`]
+       ][k]; mc(...qs,i);
+     } else if(/spreadsheet|data|database|information/.test(low)){
+       const qs=[
+        [`What is a spreadsheet useful for?`,'Organising data and performing calculations',['Washing computer parts','Protecting a laptop from rain','Replacing every type of software'],`Spreadsheets organise data and can calculate results with formulas.`],
+        [`In a spreadsheet, what is a cell?`,'The box where a row and column meet',['The whole computer','A type of password','A printed page only'],`A cell is the intersection of a row and a column.`],
+        [`Why should data be checked before use?`,'Incorrect data can lead to incorrect results',['Checking always deletes data','Data never contains mistakes','It makes a keyboard faster'],`Accurate input is important for reliable outputs.`],
+        [`Which formula adds values in cells B2 to B5 in a typical spreadsheet?`,'=SUM(B2:B5)',['=ADD ALL B2 B5','=TOTAL ROW B','=B2+B5 only'],`SUM adds all the values in the selected range.`],
+        [`Why should a table have clear column headings?`,'They explain what each column contains',['They make data impossible to sort','They hide the meaning of values','They are only decoration'],`Headings make records easier to interpret.`],
+        [`What does sorting data do?`,'Arranges records in a chosen order',['Deletes all records','Changes every number randomly','Creates a password'],`Sorting arranges values, for example alphabetically or from smallest to largest.`],
+        [`Which is a good way to protect private data?`,'Only collect and share what is needed with permission',['Publish everyone’s details','Leave accounts open to anyone','Use another person’s account secretly'],`Privacy means handling personal information carefully and appropriately.`],
+        [`What is a database used for?`,'Storing and organising related records so they can be retrieved',['Drawing only freehand pictures','Charging a battery','Making a monitor brighter'],`Databases organise related information for searching and retrieval.`],
+        [`Why should a spreadsheet formula be checked?`,'A wrong cell range can produce a wrong result',['Formulas never make mistakes','Checking deletes all numbers','It changes the computer hardware'],`Check formulas and ranges to make sure the calculation uses the intended data.`],
+        [`Which record is better for a class book inventory?`,'A table with book title, code and availability',['A list of names with no book details','A blank page','A table with all headings removed'],`Useful records contain relevant, clearly labelled information.`]
+       ][k]; mc(...qs,i);
+     } else if(/internet|network|web|communication/.test(low)){
+       const qs=[
+        [`What is the internet?`,'A global network connecting many computers and devices',['A single keyboard','A word-processing tool only','A computer battery'],`The internet connects networks and devices worldwide.`],
+        [`How can you judge whether an online claim is reliable?`,'Check the source and compare with trusted sources',['Believe it because it has a picture','Share it before reading','Trust every unknown message'],`Source-checking helps identify inaccurate or misleading claims.`],
+        [`What should you do when using someone else’s work online?`,'Give credit and follow copyright or permission rules',['Claim it as your own','Remove the author’s name','Assume all work is free to copy'],`Acknowledging creators respects ownership and copyright.`],
+        [`Which action supports respectful online communication?`,'Use polite language and avoid sharing hurtful messages',['Send insults','Share rumours about classmates','Post private messages without permission'],`Respectful communication supports a safer online community.`],
+        [`What is a web browser used for?`,'Opening and viewing web pages',['Measuring temperature','Printing money','Charging a phone'],`A browser is software for accessing web pages.`],
+        [`Why should you compare information from more than one trusted source?`,'To check accuracy and reduce the chance of being misled',['To make every claim true automatically','To avoid reading the sources','To copy without credit'],`Comparing reliable sources can help verify information.`],
+        [`What should you do before sharing a photo of another learner?`,'Ask for permission and follow school or family rules',['Share it widely without asking','Add their address','Assume permission is automatic'],`Respect privacy and seek permission before sharing identifiable images.`],
+        [`What is a network?`,'Connected devices that can share information or resources',['A single paper notebook','A type of pencil','A monitor stand'],`A network connects devices for communication and resource sharing.`],
+        [`Why should you avoid downloading unknown files?`,'They may contain malware or unwanted software',['They always improve device speed','They are all safe','They cannot affect a computer'],`Unknown downloads may be unsafe; use trusted sources and protections.`],
+        [`Which detail helps make a search more useful?`,'Specific keywords related to the information needed',['Typing random letters only','Using no search terms','Sharing a password in the search box'],`Specific keywords help narrow search results.`]
+       ][k]; mc(...qs,i);
+     } else {
+       const qs=[
+        [`What is hardware?`,'The physical parts of a computer',['A computer program only','A website password','A file name only'],`Hardware refers to physical computer components.`],
+        [`Which is an example of software?`,'A word-processing application',['A keyboard','A monitor','A mouse'],`Software is a program or set of instructions run by a device.`],
+        [`What is a good first step when using a new digital tool?`,'Identify the task and choose the appropriate tool',['Click every button at random','Share your password','Ignore the instructions'],`Start by understanding the task and selecting a suitable tool.`],
+        [`Why should you save your work regularly?`,'To reduce the risk of losing changes',['To make the screen brighter','To delete the file automatically','To stop the computer processing'],`Saving helps preserve your work.`],
+        [`Which device is mainly used to enter text?`,'Keyboard',['Monitor','Speaker','Projector'],`A keyboard is an input device used to enter text and commands.`],
+        [`Which device displays visual output?`,'Monitor',['Mouse','Microphone','Scanner'],`A monitor displays visual information from a computer.`],
+        [`What should you do before shutting down a computer after editing a document?`,'Save the document and close work safely',['Pull out the power cable immediately','Delete the file','Share your password'],`Saving and shutting down correctly helps prevent lost work.`],
+        [`Why are file names useful?`,'They help people identify and find saved work',['They make files impossible to open','They replace the need for folders','They automatically correct every error'],`Descriptive file names make work easier to organise and retrieve.`],
+        [`Which is an input device?`,'Mouse',['Speaker','Monitor','Projector'],`A mouse sends user actions into the computer.`],
+        [`Why should devices be handled carefully?`,'Careful handling helps prevent damage and data loss',['Devices cannot be damaged','It makes all software free','It removes the need for passwords'],`Careful use helps protect equipment and stored work.`]
+       ][k]; mc(...qs,i);
+     }
    }
-   const opts=src.opts.map(x=>x);
-   // Rotate option order so the correct answer is not always A.
-   const shift=(i%4); const rotated=opts.map((_,j)=>opts[(j+shift)%opts.length]); const correct=(src.correct-shift+opts.length)%opts.length;
-   output.push({id:i,q:`${i+1}. ${q}`,options:rotated,correct,explanation:src.why,level:levels[i]});
  }
- return output;
+ // Keep the question bank at exactly 50 items, with unique stems for each topic.
+ const scenarioPrefixes=['At home, a learner asks: ','During a classroom activity, a learner asks: ','In a local shop or community setting, a learner asks: ','During group revision, a learner asks: ','While solving a challenge task, a learner asks: '];
+ return items.map((q,i)=>({...q,id:i,q:`${i+1}. ${scenarioPrefixes[Math.floor(i/10)]}${q.q}`}));
 }
 function resetChoiceQuiz(){sessionStorage.removeItem('mshQuizAnswers');document.querySelectorAll('[data-choice-question] input[type=radio]').forEach(el=>el.checked=false);document.querySelectorAll('[id^=feedback-]').forEach(el=>{el.className='answer';el.textContent='Choose an answer to check your understanding.'});const scoreEl=document.getElementById('quizScore');if(scoreEl)scoreEl.textContent='Answered: 0 / 50 • Correct: 0';}
 function submitChoiceQuestion(id,selected){
