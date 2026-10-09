@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#111827">
 <title>My Study Handbook</title>
 <style>
 :root{--primary:#0f766e;--primary2:#115e59;--accent:#f59e0b;--bg:#f4f7f8;--card:#fff;--text:#17202a;--muted:#64748b;--border:#e2e8f0;--danger:#dc2626;--shadow:0 8px 25px rgba(15,23,42,.07)}
@@ -43,6 +43,37 @@ main#app{max-width:none;margin:0 0 0 236px;padding:28px clamp(18px,3vw,42px) 70p
 @media(max-width:800px){.portal-sidebar{width:74px;padding:16px 8px}.sidebar-label,.side-link .nav-text,.sidebar-note{display:none}.side-link{justify-content:center;padding:13px 5px}.side-link .nav-icon{width:auto;font-size:1.3rem}main#app{margin-left:74px;padding:20px 16px 40px}.dash-stats{grid-template-columns:1fr 1fr}.quick-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){header .bar{padding:10px 12px}.brand{font-size:1rem}.brand small{font-size:.65rem}.header-actions .btn{padding:8px 10px;font-size:.82rem}.portal-sidebar{top:65px;bottom:auto;width:100%;height:62px;display:flex;align-items:center;justify-content:space-around;padding:5px 8px;border-right:0;border-bottom:1px solid #e5ecea}.side-link{width:auto;flex:1;margin:0 2px;padding:8px 3px}.side-link .nav-icon{font-size:1.15rem}main#app{margin:62px 0 0;padding:17px 12px 35px}.dashboard-welcome{padding:22px 19px}.welcome-mark{font-size:2.5rem}.dash-stats{grid-template-columns:1fr 1fr;gap:9px}.dash-stat{padding:13px;gap:9px}.dash-stat .stat-icon{width:36px;height:36px;font-size:1.1rem}.dash-stat .stat{font-size:1.35rem}.quick-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.grid .card{padding:14px}}
 @media(max-width:370px){.grid{grid-template-columns:1fr}.dash-stats{grid-template-columns:1fr}}
+
+
+/* BLUE + BLUE-BLACK PORTAL THEME */
+:root{--primary:#2563eb;--primary2:#111827;--accent:#60a5fa;--bg:#f1f5f9;--card:#ffffff;--text:#172033;--muted:#64748b;--border:#dbe4f0;--danger:#dc2626;--shadow:0 8px 25px rgba(15,23,42,.07)}
+body{background:#f1f5f9;color:#172033}
+header{background:#111827;color:#fff;border-bottom:1px solid #263449;box-shadow:0 3px 16px rgba(15,23,42,.14)}
+.bar{background:transparent}.brand{color:#fff}.brand small{color:#cbd5e1}
+.btn-light{background:#263449;color:#eaf2ff}.btn-light:hover{background:#334155}
+.btn-primary{background:#2563eb;color:#fff}.btn-primary:hover{background:#1d4ed8}
+.btn-accent{background:#60a5fa;color:#0b1220}.btn-accent:hover{background:#93c5fd}
+.btn-outline{border-color:#cbd5e1;color:#1e293b}.btn-outline:hover{background:#eff6ff;border-color:#93c5fd}
+.portal-sidebar{background:#111827;border-right:1px solid #263449}
+.sidebar-label{color:#94a3b8}
+.side-link{color:#cbd5e1}.side-link:hover,.side-link.active{background:#1d4ed8;color:#fff}
+.sidebar-note{background:#1e293b;border-color:#334155;color:#cbd5e1}
+main#app{background:#f1f5f9}
+.dashboard-welcome{background:linear-gradient(120deg,#111827 0%,#1e40af 58%,#2563eb 100%);box-shadow:0 12px 28px rgba(30,64,175,.18)}
+.dashboard-welcome p{color:#dbeafe}
+.dash-stat{border-color:#dbe4f0}.dash-stat .stat-icon{background:#dbeafe;color:#1d4ed8}.dash-stat .stat{color:#1d4ed8}
+.class-card{border-color:#dbe4f0}.class-card:hover{border-color:#60a5fa}.class-card .class-icon{background:#dbeafe;color:#1d4ed8}.class-card .class-arrow{color:#2563eb}
+.dashboard-search input{border-color:#cbd5e1}.dashboard-search input:focus,.search input:focus,.input:focus{outline:3px solid #bfdbfe;border-color:#3b82f6}
+.quick-card{border-color:#dbe4f0}.quick-card:hover{border-color:#93c5fd;background:#f8fbff}
+.hero{background:linear-gradient(135deg,#dbeafe,#fff 72%);border-color:#bfdbfe}
+.hero h1,.lesson h1{color:#1e3a8a}.section-title h2,.dashboard-heading h2{color:#172554}
+.card:hover{border-color:#93c5fd}.pill{background:#dbeafe;color:#1e40af}
+.stat{color:#1d4ed8}.breadcrumb .crumb:hover{color:#2563eb}
+.topic-num{background:#dbeafe;color:#1e40af}.progressbar span{background:linear-gradient(90deg,#2563eb,#60a5fa)}
+.lesson h2,.visual-title{color:#1d4ed8}.note{background:#eff6ff;border-left-color:#2563eb}.diagram{background:#f8fafc}
+.visual-card{background:linear-gradient(180deg,#fff,#f8fbff)}.visual-node{border-color:#93c5fd;background:#eff6ff}.visual-arrow{color:#2563eb}
+.level-tag{color:#1d4ed8;background:#dbeafe}.tool-panel{background:#f8fbff}.footer{border-color:#dbe4f0}
+@media(max-width:520px){.portal-sidebar{background:#111827;border-bottom-color:#263449}.side-link:hover,.side-link.active{background:#1d4ed8;color:#fff}}
 
 </style>
 </head>
