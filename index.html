@@ -66,13 +66,259 @@ function renderHome(){
  let completed=Object.values(state.progress).filter(Boolean).length;
  document.getElementById('app').innerHTML=`<section class="hero"><h1>My Study Handbook</h1><p>A digital study companion for Ghanaian learners. Built around the NaCCA curriculum framework and organised into learner-friendly study units. Select your class, choose a subject and study curriculum-based topics with notes, examples, activities, revision and practice.</p><div class="search"><input id="search" placeholder="Search a class or topic..." oninput="searchAll(this.value)"><button class="btn btn-primary" onclick="showProfile()">Set Profile</button></div></section>
  <div id="searchResults"></div><div class="section-title"><h2>Choose your class</h2><span class="muted">${completed} topics completed</span></div><div class="grid">${Object.keys(curriculum).map(c=>`<div class="card" onclick="selectClass('${c}')"><div class="emoji">${c.startsWith('Primary')?'🎒':'🎓'}</div><h3>${c}</h3><p class="muted">${Object.keys(curriculum[c]).join(' • ')}</p><span class="pill">${Object.values(curriculum[c]).reduce((a,b)=>a+b.length,0)} study topics</span></div>`).join('')}</div>
- <div class="section-title"><h2>How to use the portal</h2></div><div class="grid"><div class="card"><div class="emoji">📖</div><h3>Study</h3><p>Read the notes and worked examples for each topic.</p></div><div class="card"><div class="emoji">🧪</div><h3>Apply</h3><p>Connect what you learn to practical situations and activities.</p></div><div class="card"><div class="emoji">📝</div><h3>Practise</h3><p>Test yourself with application and reasoning questions.</p></div><div class="card"><div class="emoji">📊</div><h3>Track</h3><p>Completed topics are saved on your device.</p></div></div><div class="footer">My Study Handbook • NaCCA-aligned framework • Original learning content<br>Not an official NaCCA publication.</div>`;
+ <div class="section-title"><h2>How to use the portal</h2></div><div class="grid"><div class="card"><div class="emoji">📖</div><h3>Study</h3><p>Read the notes and worked examples for each topic.</p></div><div class="card"><div class="emoji">🧪</div><h3>Apply</h3><p>Connect what you learn to practical situations and activities.</p></div><div class="card"><div class="emoji">📝</div><h3>Practise</h3><p>Test yourself with application and reasoning questions.</p></div><div class="card"><div class="emoji">📊</div><h3>Track</h3><p>Completed topics are saved on your device.</p></div></div><div class="footer">My Study Handbook • Curriculum-informed learning support • Original learning content<br>Not an official NaCCA publication. Topic-by-topic mapping to official indicators is still being developed.</div>`;
 }
 function searchAll(q){q=q.trim().toLowerCase();const box=document.getElementById('searchResults');if(!q){box.innerHTML='';return}let hits=[];for(const c in curriculum)for(const s in curriculum[c])curriculum[c][s].forEach(t=>{if((c+' '+s+' '+t).toLowerCase().includes(q))hits.push({c,s,t})});box.innerHTML=hits.length?`<div class="section-title"><h2>Search results</h2></div><div class="grid">${hits.slice(0,20).map(x=>`<div class="card" onclick="openTopic('${x.c}','${x.s}','${x.t.replace(/'/g,"\\'")}')"><b>${x.c}</b><p>${subjectMeta[x.s]?.icon||'📘'} ${x.s}</p><h3>${x.t}</h3></div>`).join('')}</div>`:`<div class="empty">No matching topic found.</div>`}
 function selectClass(c){state.class=c;save();renderSubjects(c)}
 function renderSubjects(c){document.getElementById('app').innerHTML=`<div class="breadcrumb"><span class="crumb" onclick="goHome()">Home</span> › <b>${c}</b></div><div class="hero"><h1>${c}</h1><p>Choose a subject to continue your study.</p></div><div class="grid">${Object.keys(curriculum[c]).map(s=>`<div class="card" onclick="renderTopics('${c}','${s}')"><div class="emoji">${subjectMeta[s].icon}</div><h3>${s}</h3><p class="muted">${subjectMeta[s].desc}</p><span class="pill">${curriculum[c][s].length} topics</span></div>`).join('')}</div>`}
 function renderTopics(c,s){const topics=curriculum[c][s];const done=topics.filter(t=>state.progress[`${c}|${s}|${t}`]).length;document.getElementById('app').innerHTML=`<div class="breadcrumb"><span class="crumb" onclick="goHome()">Home</span> › <span class="crumb" onclick="renderSubjects('${c}')">${c}</span> › <b>${s}</b></div><div class="hero"><h1>${subjectMeta[s].icon} ${s}</h1><p>${subjectMeta[s].desc}</p><div class="progressbar"><span style="width:${done/topics.length*100}%"></span></div><small>${done} of ${topics.length} topics completed</small></div><div class="grid">${topics.map((t,i)=>{let key=`${c}|${s}|${t}`;return `<div class="card topic-card" onclick="openTopic('${c}','${s}','${t.replace(/'/g,"\\'")}')"><div class="topic-num">${i+1}</div><div style="flex:1"><h3>${t}</h3><p class="muted">Study notes • examples • application • practice</p><span class="pill">${state.progress[key]?'✓ Completed':'Start topic'}</span></div></div>`}).join('')}</div>`}
+const authoredLessons = {
+  "Primary 1|Mathematics|Numbers: Operations": {
+    "concept": "Addition joins two or more groups. Subtraction tells us how many remain or how many more/less there are. At this level, use real objects, drawings, fingers and number lines before relying only on written symbols. The plus sign (+) means add; the minus sign (−) means subtract; the equals sign (=) means both sides have the same value. When solving a story problem, listen for what happens: are objects being joined, taken away, or compared? Count carefully and check by using the opposite operation where possible. For example, if 4 bottle tops and 3 more are joined, there are 7. If 7 are present and 3 are removed, 4 remain.",
+    "examples": [
+      "Addition: 3 mangoes + 2 mangoes = 5 mangoes. Count the first group, then count on two more: 4, 5.",
+      "Subtraction: 6 pencils − 2 pencils = 4 pencils. Move two pencils away and count what remains.",
+      "Check: 4 + 3 = 7, so 7 − 3 = 4. Addition and subtraction can help check each other."
+    ],
+    "real": "Children use addition and subtraction when sharing fruit, counting pupils, checking how many books are left, or finding how much money remains after buying something.",
+    "activity": "Use 10 safe counters or bottle tops. Make a group of 4 and add 2. Draw the groups and write 4 + 2 = 6. Then start with 6, remove 2 and write 6 − 2 = 4. Ask a partner to make a story for each number sentence.",
+    "mistakes": [
+      "Adding when the story says objects were taken away. Act out the story before choosing the sign.",
+      "Counting the first object twice when counting on. Start from the total already known.",
+      "Writing a number sentence without checking whether the answer fits the story."
+    ],
+    "revision": "Addition joins groups; subtraction removes or compares. Use objects or drawings, write the matching number sentence, include the correct sign, and check your answer."
+  },
+  "Primary 1|Science|Materials and Their Properties": {
+    "concept": "Objects are made from materials such as wood, metal, plastic, glass, paper, rubber, cloth and clay. A material has properties that we can observe, including colour, texture, hardness, flexibility, absorbency and whether light passes through it. We choose materials according to what an object needs to do. A raincoat should resist water; a towel should absorb water; a window should allow light through. Different objects may use the same material, and one object may contain several materials. Observe safely: do not taste unknown materials, touch hot objects, or handle broken glass.",
+    "examples": [
+      "A clear glass window lets light pass through; a wooden door usually does not.",
+      "A sponge absorbs water, while a plastic sheet usually does not absorb it.",
+      "A metal cooking pot transfers heat well, so it must be handled carefully when hot."
+    ],
+    "real": "People choose roofing, clothing, containers and school supplies based on strength, weight, water resistance, cost and safety.",
+    "activity": "Collect or observe five safe classroom objects. Record each object, its material and two observable properties in a table. Predict which item would be most suitable for carrying water, then explain your choice using evidence. Do not break or burn any material.",
+    "mistakes": [
+      "Assuming every object that looks similar is made from the same material.",
+      "Calling a material “best” without saying what job it must do.",
+      "Testing materials in unsafe ways instead of observing or asking an adult."
+    ],
+    "revision": "Name the material, describe its observable properties, connect those properties to the object’s use, and follow safety rules during investigations."
+  },
+  "Primary 2|Mathematics|Numbers: Operations": {
+    "concept": "Addition combines quantities and subtraction finds a difference or a remaining amount. Learners should solve with counters, drawings, number lines and number sentences. When adding, combine ones with ones and tens with tens. When subtracting, compare the quantities and take care with the order: 9 − 4 is not the same as 4 − 9 in ordinary whole-number work at this level. Story clues help, but the meaning of the situation matters more than one keyword. Check addition by subtracting and check subtraction by adding the difference to the amount taken away.",
+    "examples": [
+      "27 + 15: add ones, 7 + 5 = 12. Write 2 ones and regroup 1 ten. Then 2 tens + 1 ten + 1 regrouped ten = 4 tens. Answer: 42.",
+      "43 − 18: regroup one ten as 10 ones. Then 13 − 8 = 5 and 3 tens − 1 ten = 2 tens. Answer: 25.",
+      "Check 43 − 18 = 25 by adding 25 + 18 = 43."
+    ],
+    "real": "Operations help learners count attendance, add the cost of items, share materials, compare scores and work out what remains.",
+    "activity": "Write three short stories: one about joining groups, one about taking away, and one comparing two amounts. Represent each with counters or drawings, write the number sentence and explain how you checked it.",
+    "mistakes": [
+      "Subtracting the smaller digit from the larger digit in every column without considering regrouping.",
+      "Mixing tens and ones during written calculations.",
+      "Using a keyword alone rather than understanding what happened in the story."
+    ],
+    "revision": "Represent the story, choose addition or subtraction, line up place values, regroup carefully when needed, and check using the opposite operation."
+  },
+  "Primary 3|Science|The Environment": {
+    "concept": "The environment includes living things, non-living things and the surroundings in which they interact. Living things include plants, animals and people. Non-living components include air, water, soil, rocks and sunlight. A clean environment supports health and the survival of organisms. Poor disposal of rubbish can block drains, attract pests and pollute water. People can protect the environment by reducing waste, reusing suitable items, sorting rubbish, keeping drains clear and planting or caring for trees. Changes should be described using observations, not guesses alone.",
+    "examples": [
+      "After heavy rain, rubbish blocking a drain may cause water to overflow onto a road.",
+      "Plants need suitable light, water, air and nutrients to grow; damaging vegetation can affect other organisms.",
+      "A class can compare two nearby areas by recording visible litter, standing water and plant cover."
+    ],
+    "real": "Community sanitation, safe water, gardening, drainage and responsible waste disposal all depend on understanding the environment.",
+    "activity": "With an adult or teacher, observe a safe part of the school compound. Record three things that help keep it clean and three problems that could be improved. Propose one realistic action and explain how the class could tell whether it worked.",
+    "mistakes": [
+      "Thinking the environment means only forests or wildlife. It includes places where people live and work.",
+      "Claiming a cause without collecting observations.",
+      "Handling unknown waste, sharp objects or dirty water during an activity."
+    ],
+    "revision": "The environment includes living and non-living components. Human actions can protect or harm it. Observe carefully, suggest practical actions and keep investigations safe."
+  },
+  "Primary 4|Mathematics|Whole Numbers Operations": {
+    "concept": "Whole-number operations include addition, subtraction, multiplication and division. Place value helps organise written calculations. Multiplication can represent equal groups or repeated addition; division can represent sharing equally or finding how many groups fit. In multi-step problems, identify the question, list the useful facts, choose an order of operations and estimate before calculating. An estimate helps reveal answers that are unreasonable. For division, a remainder means some items are left over; the story determines whether to report the remainder, share it further, or round up to another group.",
+    "examples": [
+      "A school orders 24 exercise books for each of 6 classes. Total = 24 × 6 = 144 books.",
+      "A farmer packs 156 oranges into bags of 12. 156 ÷ 12 = 13 bags because 12 × 13 = 156.",
+      "A club has GH₵250 and spends GH₵85 on supplies and GH₵60 on transport. Remaining money = 250 − 85 − 60 = GH₵105."
+    ],
+    "real": "These operations are used for budgets, stocktaking, school supplies, transport planning, farming and sharing resources fairly.",
+    "activity": "Create a small class-shop list with four items and realistic whole-number quantities and prices. Write one addition problem, one subtraction problem, one multiplication problem and one division problem. Estimate each answer, calculate exactly and compare.",
+    "mistakes": [
+      "Choosing operations before understanding the story.",
+      "Ignoring place-value alignment or regrouping.",
+      "Forgetting to interpret a remainder in context.",
+      "Not estimating or checking the final answer."
+    ],
+    "revision": "Use place value; know what each operation represents; plan multi-step calculations; estimate first; check with an inverse operation; state units and interpret remainders."
+  },
+  "Primary 4|Science|Diversity of Matter": {
+    "concept": "Matter is anything that has mass and occupies space. It can be found as a solid, liquid or gas. Solids usually keep their shape; liquids flow and take the shape of their container; gases spread to fill available space. Materials can be classified by observable properties such as colour, texture, hardness, flexibility, transparency, solubility and ability to conduct heat or electricity. A property is useful when it helps explain why a material is selected for a particular job. Changes such as melting or freezing can change a material’s state without necessarily making a new substance.",
+    "examples": [
+      "Ice melts into liquid water when it gains heat; cooling water can make it freeze.",
+      "A metal spoon is useful for stirring because it is strong, but it may become hot in hot food.",
+      "Salt dissolves in water under suitable conditions, while sand does not dissolve in the same way."
+    ],
+    "real": "Builders, cooks, farmers and manufacturers choose materials based on properties, cost, availability and safety.",
+    "activity": "Observe a small amount of water, an ice cube and a solid object such as a stone. Describe their shape and how they behave in a container. If permitted, compare how salt and sand behave in separate cups of water; do not taste the mixtures and wash hands afterward.",
+    "mistakes": [
+      "Saying that a gas is “nothing”; gases are matter even when invisible.",
+      "Assuming dissolving always means a substance has disappeared.",
+      "Mixing up an observation (“the liquid flows”) with an explanation."
+    ],
+    "revision": "Matter has mass and occupies space. Solids, liquids and gases behave differently. Classify materials using evidence about their properties and use safe tests."
+  },
+  "Primary 4|Computing|Introduction to Computing": {
+    "concept": "Computing is the use of digital systems and computational methods to handle information and solve problems. A computer system involves hardware (physical parts), software (instructions and programs), data and people. Input devices send data into a system; processing follows instructions; output devices present results; storage keeps data for later use. Not every digital device looks like a desktop computer: phones, tablets, ATMs and some household devices also use computing. A computer does not automatically know whether information is true; people must enter suitable data and check the result.",
+    "examples": [
+      "A keyboard is an input device, the CPU processes instructions, a monitor is an output device and a storage drive keeps files.",
+      "In a school attendance system, a teacher enters attendance data, the program processes it and a report shows the result.",
+      "A printer produces a paper copy of a document; it is an output device."
+    ],
+    "real": "Schools use computers to prepare reports, shops record sales, hospitals store records and families communicate or learn online.",
+    "activity": "Draw a simple computer system and label one input device, a processing unit, one output device and a storage device. Then describe how information moves through the system when a teacher types and prints a class list.",
+    "mistakes": [
+      "Calling every computer-related item software; a keyboard is hardware.",
+      "Assuming a computer can decide correctly without accurate data and suitable instructions.",
+      "Sharing private information on a device without permission."
+    ],
+    "revision": "Hardware is physical; software contains instructions. A system receives input, processes it, produces output and may store data. Use devices responsibly and protect personal information."
+  },
+  "Primary 5|Mathematics|Fractions Representation and Relationship": {
+    "concept": "A fraction represents equal parts of a whole or a collection. The denominator tells how many equal parts make the whole; the numerator tells how many of those parts are considered. Fractions can be shown using diagrams, objects, number lines and division. Equivalent fractions name the same value, such as 1/2 and 2/4. To compare fractions, consider whether they have equal denominators, equal numerators, or can be rewritten with a common denominator. A fraction is meaningful only when the parts being compared are equal in size.",
+    "examples": [
+      "If a pizza is cut into 8 equal slices and 3 are eaten, 3/8 has been eaten and 5/8 remains.",
+      "1/2 = 2/4 because dividing a whole into four equal parts gives two parts the same size as one half.",
+      "To compare 3/4 and 2/4, the denominators are equal, so compare numerators: 3/4 is greater."
+    ],
+    "real": "Fractions appear in recipes, sharing food, measuring lengths, dividing time and describing parts of a class or community.",
+    "activity": "Fold paper strips into equal halves, quarters and eighths. Shade different parts, label each fraction and find pairs that cover the same amount. Explain why unequal pieces cannot be counted as equal fractional parts.",
+    "mistakes": [
+      "Thinking a larger denominator always means a larger fraction.",
+      "Using parts that are not equal in size.",
+      "Adding denominators when adding fractions with equal denominators."
+    ],
+    "revision": "The numerator counts selected parts; the denominator counts equal parts in the whole. Use diagrams, identify equivalent fractions and compare values carefully."
+  },
+  "Primary 5|Computing|Spreadsheets": {
+    "concept": "A spreadsheet organises information in a grid of rows and columns. A cell is the box where a row and column meet; it has an address such as A1. Labels describe data, values contain numbers or text, and formulas calculate results. A formula commonly begins with an equals sign. For example, =B2+C2 adds the values in cells B2 and C2. A spreadsheet can help sort information, calculate totals and present patterns in tables or charts. Always check the data and formula range before relying on the result.",
+    "examples": [
+      "If B2 contains 12 and C2 contains 8, the formula =B2+C2 in D2 displays 20.",
+      "A class marks sheet can use =SUM(B2:B11) to total ten marks, if those cells contain the intended values.",
+      "A chart of weekly rainfall can help readers compare amounts across days, but it is only as accurate as the entered data."
+    ],
+    "real": "Spreadsheets are used for class marks, attendance summaries, household budgets, stock records and small-business sales.",
+    "activity": "On paper or in a spreadsheet program, make columns for item, quantity and unit price. Create five sample rows and calculate each line total. Check one total manually and explain why checking a formula matters.",
+    "mistakes": [
+      "Typing a formula without the equals sign in software that requires it.",
+      "Including the wrong cells or leaving out a row in a total.",
+      "Assuming a chart proves a claim without checking the data behind it."
+    ],
+    "revision": "Rows and columns form cells; cell addresses identify locations. Formulas calculate; ranges group cells. Verify inputs, formula ranges and outputs."
+  },
+  "JHS 1|Mathematics|Fractions, Decimals and Percentages": {
+    "concept": "Fractions, decimals and percentages are different representations of parts of a whole. A percentage means “out of 100”. To convert a fraction to a percentage, multiply by 100% or rewrite it with denominator 100 where practical. To convert a percentage to a decimal, divide by 100. When finding a percentage of an amount, change the percentage to a fraction or decimal and multiply by the amount. Always identify the base amount: 20% of GH₵150 is not the same as 20% of GH₵200. In discounts, subtract the discount from the original price to find the sale price.",
+    "examples": [
+      "3/4 = 0.75 = 75%, because 3 ÷ 4 = 0.75 and 0.75 × 100% = 75%.",
+      "Find 15% of GH₵200: 0.15 × 200 = GH₵30.",
+      "A GH₵160 bag is discounted by 25%. Discount = 0.25 × 160 = GH₵40; sale price = GH₵160 − GH₵40 = GH₵120."
+    ],
+    "real": "Percentages are used for discounts, examination results, tax, interest, sports statistics and comparing data.",
+    "activity": "Choose three advertised prices from a shop leaflet or create sample prices. Calculate a 10% and 25% discount on each. Show the discount amount and final price, then estimate to check the answers.",
+    "mistakes": [
+      "Calculating a percentage from the wrong base amount.",
+      "Treating 0.5 as 0.5% instead of 50%.",
+      "Reporting the discount amount as the final sale price."
+    ],
+    "revision": "Percent means per hundred. Convert between fractions, decimals and percentages; multiply by the correct base; distinguish the discount from the final price; estimate and check."
+  },
+  "JHS 1|Science|Forces and Energy": {
+    "concept": "A force is a push or pull that can change an object’s motion, direction or shape. Forces are measured in newtons (N). Some forces require contact, such as friction and a push; gravity and magnetic forces can act without direct contact. Balanced forces do not change an object’s motion, while an unbalanced force can change its speed or direction. Energy is the ability to cause change or do work. Forms include kinetic, potential, thermal, light, sound, chemical and electrical energy. Energy can be transferred or transformed; in real processes some spreads to the surroundings, often as heat or sound.",
+    "examples": [
+      "A football accelerates when a player kicks it because the kick applies a force.",
+      "Friction between shoes and the ground helps a person walk without slipping.",
+      "A battery stores chemical energy that can be transferred electrically to a lamp and transformed into light and heat."
+    ],
+    "real": "Forces and energy explain cycling, lifting loads, cooking, transport, electricity use and how sports equipment works.",
+    "activity": "Roll a toy car across three surfaces such as smooth tile, cardboard and a textured mat. Keep the starting point and push as similar as possible. Record the distance travelled and suggest how friction may explain the differences. Avoid roadways or unsafe surfaces.",
+    "mistakes": [
+      "Assuming a moving object must have a continuing push in the direction of motion.",
+      "Saying energy is destroyed when it changes form.",
+      "Confusing force with energy; they are related but different ideas."
+    ],
+    "revision": "A force is a push or pull. Balanced forces do not change motion; unbalanced forces can. Energy transfers and transforms between forms, with some often dispersed to surroundings."
+  },
+  "JHS 1|Computing|Algorithms and Programming": {
+    "concept": "An algorithm is a finite, ordered set of clear steps for solving a problem. A program expresses instructions using a programming language or environment. Algorithms can include sequence, selection (making a decision) and iteration (repeating steps). Good instructions are precise and unambiguous. A trace table can help follow variable values step by step. Testing uses examples, including boundary or unusual cases, to discover errors. Debugging means finding and correcting errors, then testing again. Plan for the user’s needs and protect data when a program handles personal information.",
+    "examples": [
+      "Algorithm to find the larger of two numbers: input A and B; if A > B display A; otherwise if B > A display B; otherwise display “equal”.",
+      "To total five scores: set total to 0; repeat for each score, add it to total; display total.",
+      "A program tested only with positive numbers may fail for zero or negative inputs if those cases are allowed; choose test cases deliberately."
+    ],
+    "real": "Algorithms power apps, websites, online forms, games, school record systems and everyday procedures such as following a recipe.",
+    "activity": "Write numbered steps for calculating the average of three marks. Test the steps using 6, 9 and 12. Then test a second set with all equal marks and explain what the output should be. Identify one possible error and correct it.",
+    "mistakes": [
+      "Writing steps in an order that cannot produce the intended result.",
+      "Using vague instructions such as “do the calculation” without defining it.",
+      "Testing only one example and assuming the algorithm is always correct."
+    ],
+    "revision": "Define the problem; write clear steps; use sequence, selection or repetition where needed; test normal and unusual cases; debug and retest."
+  },
+  "JHS 2|Mathematics|Ratio and Proportion": {
+    "concept": "A ratio compares quantities by division and is often written with a colon, such as 2:3. Quantities in a ratio should use compatible units. Ratios can be simplified by dividing each term by the same common factor. Equivalent ratios preserve the same relationship. Direct proportion occurs when two quantities increase or decrease by the same multiplicative factor, such as the cost of identical items at a fixed unit price. Use tables, unit rates or scaling to solve proportion problems and check that the result makes sense in context.",
+    "examples": [
+      "Simplify 12:18 by dividing both terms by 6: 2:3.",
+      "If 4 notebooks cost GH₵28 at the same price each, one costs GH₵7 and 10 cost GH₵70.",
+      "A drink mix uses concentrate and water in the ratio 1:4. If 3 cups of concentrate are used, 12 cups of water keep the same ratio."
+    ],
+    "real": "Ratio and proportion help with recipes, map scales, mixing materials, sharing resources and comparing prices per unit.",
+    "activity": "Make a ratio table for a recipe serving 2 people, 4 people and 6 people. Multiply every ingredient by the same scale factor and check that the ratios remain equivalent.",
+    "mistakes": [
+      "Adding the same number to both terms instead of multiplying or dividing by a common factor.",
+      "Comparing quantities measured in different units without converting them.",
+      "Assuming every real-life relationship is directly proportional."
+    ],
+    "revision": "Write ratios in compatible units, simplify with a common factor, use equivalent ratios or unit rates, and check whether direct proportion fits the situation."
+  },
+  "JHS 3|Mathematics|Real Numbers": {
+    "concept": "Real numbers include rational and irrational numbers and can be represented on a number line. Rational numbers can be written as a ratio of integers with a non-zero denominator; their decimals terminate or repeat. Irrational numbers cannot be written as such a ratio and have non-terminating, non-repeating decimal expansions, such as √2 and π. Square roots can be estimated by locating the number between nearby perfect squares. Exact forms and decimal approximations serve different purposes: use exact values when requested and round approximations to the required accuracy.",
+    "examples": [
+      "√49 = 7 because 7² = 49.",
+      "Since 1² = 1 and 2² = 4, √2 lies between 1 and 2; its decimal approximation is about 1.414.",
+      "3/8 = 0.375 is rational because the decimal terminates; π is irrational."
+    ],
+    "real": "Real numbers are used in measurement, geometry, engineering, science and calculations involving lengths, areas and rates.",
+    "activity": "Place −2, 0, 1/2, √2 and 2.5 on a number line. Mark approximate locations for irrational numbers and label which values are rational or irrational, explaining your reasoning.",
+    "mistakes": [
+      "Calling every non-terminating decimal irrational; repeating decimals are rational.",
+      "Treating an approximation as an exact value.",
+      "Estimating a square root without checking the nearby perfect squares."
+    ],
+    "revision": "Real numbers include rational and irrational values. Know terminating/repeating decimals, locate values on a number line, estimate roots using perfect squares and round as instructed."
+  },
+  "JHS 3|Computing|Cybersecurity": {
+    "concept": "Cybersecurity is the protection of devices, accounts, networks and data from unauthorised access, damage or misuse. Common risks include phishing, weak or reused passwords, malware, unsafe downloads, social engineering and oversharing. Protective habits include using long unique passwords, enabling multi-factor authentication where available, updating software, checking links and senders, backing up important files and limiting access to personal information. No single measure removes every risk. If an account may be compromised, use a trusted device to change credentials, sign out other sessions where possible and report the incident to a responsible adult or administrator.",
+    "examples": [
+      "A message claiming a prize asks for a password through an unfamiliar link. Verify it through an official channel instead of clicking.",
+      "A unique passphrase for each important account reduces the harm if one service is breached.",
+      "A backup helps restore files after accidental deletion or certain malware incidents, provided the backup itself is protected."
+    ],
+    "real": "Students need cybersecurity when using school accounts, email, messaging apps, social networks, mobile money services and shared devices.",
+    "activity": "Review three fictional messages prepared by a teacher. Identify suspicious links, urgency, requests for private information and mismatched senders. For each message, state a safe next step. Do not test suspicious links on a real device.",
+    "mistakes": [
+      "Believing a message because it uses a familiar logo or a person’s name.",
+      "Sharing one password across many accounts.",
+      "Assuming antivirus software or a strong password alone guarantees safety."
+    ],
+    "revision": "Use unique strong passwords and multi-factor authentication, update devices, verify unexpected requests, back up data and report suspected incidents promptly."
+  }
+};
+
 function topicContent(c,s,t){
+ const authored = authoredLessons[`${c}|${s}|${t}`];
+ if(authored) return authored;
  const key=t.toLowerCase();
  // Fully authored exemplar lesson: detailed, age-appropriate and usable offline.
  if(c==='Primary 1' && s==='Mathematics' && t==='Numbers: Counting, Representation and Cardinality'){
@@ -127,6 +373,189 @@ function topicContent(c,s,t){
  }
  return {concept,examples,activity,real,mistakes,revision};
 }
+const authoredQuestionStems = {
+  "Primary 1|Mathematics|Numbers: Operations": [
+    "Use counters to show 3 + 2 and write the number sentence.",
+    "There are 5 pupils in a group and 2 more join. How many pupils are there now?",
+    "Seven oranges are on a plate. Three are eaten. How many remain?",
+    "Draw a picture to show 4 + 4 and explain your answer.",
+    "Write a subtraction story that matches 8 − 5.",
+    "Ama has 6 pencils and Kojo has 4. How many more pencils does Ama have?",
+    "Show how addition can check the answer to 9 − 2.",
+    "A class has 10 balls and gives 3 away. Explain which operation you use and why.",
+    "Create two different number sentences with the answer 6.",
+    "Explain how you would check a friend’s answer to 7 + 2."
+  ],
+  "Primary 1|Science|Materials and Their Properties": [
+    "Name two materials used to make objects in your classroom.",
+    "Which material would you choose for a towel and why?",
+    "Compare the texture of a wooden pencil and a plastic ruler.",
+    "Which is more suitable for a window: clear glass or cardboard? Explain.",
+    "Suggest a safe way to find out whether a cloth absorbs water.",
+    "Why is a metal cooking pot useful, and what safety care is needed?",
+    "Describe two properties of a school bag material.",
+    "Choose a material for a raincoat and justify your choice.",
+    "A cup leaks water. What property should a replacement cup have?",
+    "Design a table to compare five objects by material and one property."
+  ],
+  "Primary 2|Mathematics|Numbers: Operations": [
+    "Calculate 26 + 17 and show your regrouping.",
+    "Calculate 54 − 28 and explain how you regroup.",
+    "A pupil has 18 pencils and receives 9 more. How many now?",
+    "There are 63 books and 25 are borrowed. How many remain?",
+    "A shop sells 3 bags with 12 oranges in each. How many oranges?",
+    "Share 32 counters equally among 4 pupils. How many each?",
+    "Write a story problem that uses 45 − 19.",
+    "Check 37 + 28 by using subtraction.",
+    "A learner says 52 − 17 = 45. Find and explain the likely error.",
+    "Create a two-step problem using addition and subtraction and solve it."
+  ],
+  "Primary 3|Science|The Environment": [
+    "List three living and three non-living parts of a school environment.",
+    "How could rubbish in a drain affect a community after heavy rain?",
+    "Suggest two ways a class can reduce waste at school.",
+    "What observations would show that a place may have a sanitation problem?",
+    "Explain how trees can benefit people and other living things.",
+    "Plan a safe survey of litter in two parts of the school compound.",
+    "A stream is polluted by waste. Name two possible effects and explain.",
+    "How can a class check whether its clean-up action has helped?",
+    "Separate an observation from an opinion in a report about litter.",
+    "Propose a realistic community action and state evidence that would show progress."
+  ],
+  "Primary 4|Mathematics|Whole Numbers Operations": [
+    "A school buys 36 books for each of 4 classes. Find the total number of books.",
+    "Calculate 704 − 268 and show each step.",
+    "A farmer packs 216 eggs into trays of 12. How many trays are needed?",
+    "A club has GH₵500 and spends GH₵175 and GH₵89. Find the balance.",
+    "Estimate 398 × 6 before calculating exactly.",
+    "Explain how multiplication can check a division answer.",
+    "A school has 1,250 learners and 478 are girls. How many are not girls?",
+    "A bus carries 48 passengers per trip. How many passengers over 7 full trips?",
+    "A division gives a remainder of 3. Explain what that could mean when sharing items.",
+    "Create a two-step word problem with at least two operations and solve it."
+  ],
+  "Primary 4|Science|Diversity of Matter": [
+    "Give one example each of a solid, liquid and gas.",
+    "Compare the shape of a solid and a liquid in a container.",
+    "Why is metal often used for cooking pots but a handle may be made from another material?",
+    "Predict what happens to ice when it is warmed and explain.",
+    "Describe a safe test to compare whether salt and sand dissolve in water.",
+    "A material is flexible and waterproof. Suggest a useful application.",
+    "Explain why air is matter even though it cannot usually be seen.",
+    "Classify five household materials using two properties.",
+    "Distinguish between an observation and an explanation in a melting experiment.",
+    "Design a safe investigation comparing two materials for a stated purpose."
+  ],
+  "Primary 4|Computing|Introduction to Computing": [
+    "Classify a keyboard, monitor, printer and storage drive as input, output or storage devices.",
+    "Explain the difference between hardware and software with examples.",
+    "Describe the input, processing and output in a school attendance system.",
+    "Why should a user check information before trusting a computer-generated report?",
+    "Choose devices needed to type and print a class list.",
+    "Explain the role of data in a computer system.",
+    "A printer does not produce a page. Give two checks a user could make safely.",
+    "Compare a tablet and a desktop computer for a classroom task.",
+    "Explain why a password should not be shared with classmates.",
+    "Draw and explain a system showing input, processing, output and storage."
+  ],
+  "Primary 5|Mathematics|Fractions Representation and Relationship": [
+    "Draw a model showing 3/8 and label the numerator and denominator.",
+    "Explain why 1/2 is equivalent to 2/4.",
+    "Which is greater, 3/5 or 4/5? Justify your answer.",
+    "A cake is cut into 10 equal pieces and 4 are eaten. What fraction remains?",
+    "Find two fractions equivalent to 3/4.",
+    "Explain why parts must be equal when representing a fraction.",
+    "Compare 2/3 and 2/5 using a drawing or reasoning.",
+    "A recipe needs 1/2 cup of milk. How much is needed to make double the recipe?",
+    "Correct this claim: 1/4 is greater than 1/3 because 4 is greater than 3.",
+    "Create a sharing problem involving fractions and solve it with a diagram."
+  ],
+  "Primary 5|Computing|Spreadsheets": [
+    "What is a cell, and what does the address B3 identify?",
+    "If A1 contains 7 and B1 contains 9, what does =A1+B1 calculate?",
+    "Write a formula to add values in C2 and D2.",
+    "Why might a total be wrong if one row is excluded from a formula range?",
+    "Plan spreadsheet columns for recording class attendance.",
+    "Explain the difference between a value and a formula.",
+    "A class marks chart looks unusual. What data and formula checks should be made?",
+    "Choose a suitable chart for comparing weekly sales and explain why.",
+    "How could a spreadsheet help a school club plan a budget?",
+    "Design a small stock table and state how you would check its totals."
+  ],
+  "JHS 1|Mathematics|Fractions, Decimals and Percentages": [
+    "Convert 3/5 to a decimal and a percentage.",
+    "Express 0.28 as a percentage and as a fraction out of 100.",
+    "Find 18% of GH₵250 and show your method.",
+    "A GH₵120 item is discounted by 15%. Find the discount and sale price.",
+    "A learner scores 42 out of 60. Express the score as a percentage.",
+    "Compare 0.6, 5/8 and 62% by converting to a common form.",
+    "A price rises from GH₵80 to GH₵100. Find the percentage increase.",
+    "Explain why 0.07 is 7%, not 0.07%.",
+    "A shop offers 20% off GH₵350. A learner says the final price is GH₵70. Explain the mistake.",
+    "Create a real-life percentage problem involving a budget or discount and solve it."
+  ],
+  "JHS 1|Science|Forces and Energy": [
+    "Give two examples of contact forces and two non-contact forces.",
+    "Explain how friction helps a person walk.",
+    "Describe how an unbalanced force can change a moving ball’s motion.",
+    "Name the main energy changes in a battery-powered lamp.",
+    "Why do balanced forces not change an object’s motion?",
+    "Plan a fair test comparing how far a toy car travels on two surfaces.",
+    "A cyclist brakes and slows down. Explain the role of friction.",
+    "Describe an energy transfer in cooking food.",
+    "Explain why energy is not simply destroyed when a moving object stops.",
+    "Evaluate one way to reduce wasted energy at school and how you would measure its effect."
+  ],
+  "JHS 1|Computing|Algorithms and Programming": [
+    "Write an algorithm to find the sum of two numbers.",
+    "What is the difference between sequence, selection and iteration?",
+    "Trace an algorithm that adds 2, 4 and 6 to a running total.",
+    "Write steps to decide whether a number is even or odd.",
+    "Why should an algorithm use clear, unambiguous instructions?",
+    "Create three test cases for a program that calculates an average.",
+    "A program works for positive numbers but fails for zero. What should be tested?",
+    "Explain the difference between an error and debugging.",
+    "Write pseudocode to find the larger of two numbers, including the equal case.",
+    "Design, test and improve an algorithm for calculating the total cost of several items."
+  ],
+  "JHS 2|Mathematics|Ratio and Proportion": [
+    "Simplify the ratio 18:24.",
+    "A drink mix uses syrup and water in a ratio of 1:5. How much water is needed for 4 cups of syrup?",
+    "If 6 pens cost GH₵42, find the cost of 10 pens at the same unit price.",
+    "Divide 72 in the ratio 5:4.",
+    "Explain why quantities should use compatible units before forming a ratio.",
+    "A map scale is 1 cm to 5 km. What distance does 7 cm represent?",
+    "A recipe for 4 people uses 300 g of flour. How much is needed for 10 people?",
+    "Give an example of a relationship that is not directly proportional and explain.",
+    "A learner simplifies 15:20 to 3:8. Identify and correct the error.",
+    "Plan a fair-sharing problem using a ratio and show how to check the parts add to the total."
+  ],
+  "JHS 3|Mathematics|Real Numbers": [
+    "Classify −3, 0.75, √5 and π as rational or irrational.",
+    "Explain why 0.3333… with recurring 3s is rational.",
+    "Between which two consecutive integers does √30 lie? Explain using squares.",
+    "Write 7/8 as a decimal and classify it.",
+    "Place −1.5, 0, √2 and 2.25 in order on a number line.",
+    "Explain the difference between an exact value and an approximation.",
+    "Estimate √70 to the nearest whole number and justify it.",
+    "A learner claims every non-terminating decimal is irrational. Give a counterexample.",
+    "Choose an appropriate level of rounding for a real measurement and explain why.",
+    "Compare two methods for estimating a square root and evaluate which is more reliable."
+  ],
+  "JHS 3|Computing|Cybersecurity": [
+    "Identify three warning signs in a suspicious prize message.",
+    "Explain why a unique password is safer than reusing one password.",
+    "What should a student do after entering a password on a suspicious website?",
+    "Describe how multi-factor authentication adds protection.",
+    "Explain why software updates can be important for security.",
+    "Create a checklist for verifying a message before opening its link.",
+    "A friend asks for your school account password to submit work. What is the safer response?",
+    "Compare backups and antivirus software: what different risks do they address?",
+    "Describe how oversharing personal information can create risks.",
+    "Design a short cybersecurity awareness message for students and justify its advice."
+  ]
+};
+
 function makeQuestions(c,s,t){
  const qs=[];
  const levelFor=i=>i<=10?'Understand':i<=25?'Apply':i<=40?'Reason':'Challenge';
@@ -151,10 +580,11 @@ function makeQuestions(c,s,t){
   ['Analyse a digital problem, identify its users and requirements, and propose a solution.','Design an algorithm or workflow, then test it with at least two different examples.','Explain how you would protect data and respect users when implementing the solution.','Evaluate the solution using accuracy, usability, accessibility, safety and efficiency.','Propose an improvement and justify it with evidence from testing or user feedback.']
  ];
  const bank=s==='Mathematics'?mathBank:s==='Science'?scienceBank:compBank;
+ const authoredStems=authoredQuestionStems[`${c}|${s}|${t}`];
  const tier=i=>i<=10?0:i<=25?1:i<=40?2:3;
  for(let i=1;i<=50;i++){
    const tierIndex=tier(i), context=contexts[(i-1)%contexts.length];
-   const stem=bank[tierIndex][(i-1)%bank[tierIndex].length];
+   const stem=authoredStems ? authoredStems[(i-1)%authoredStems.length] : bank[tierIndex][(i-1)%bank[tierIndex].length];
    const prompts=[
     `Question ${i} • ${levelFor(i)}: ${stem} Topic: ${t}.`,
     `Question ${i} • ${levelFor(i)}: In ${context}, a situation involving ${t} occurs. ${stem}`,
@@ -170,7 +600,7 @@ function makeQuestions(c,s,t){
  }
  return qs;
 }
-function openTopic(c,s,t){const data=topicContent(c,s,t);const key=`${c}|${s}|${t}`;const questions=makeQuestions(c,s,t);document.getElementById('app').innerHTML=`<div class="breadcrumb"><span class="crumb" onclick="goHome()">Home</span> › <span class="crumb" onclick="renderSubjects('${c}')">${c}</span> › <span class="crumb" onclick="renderTopics('${c}','${s}')">${s}</span> › <b>${t}</b></div><article class="lesson"><h1>${t}</h1><div class="chips"><span class="pill">${c}</span><span class="pill">${s}</span><span class="pill">NaCCA-aligned framework</span></div><section><h2>📖 Study Notes</h2><p>${data.concept}</p><div class="note"><b>Study approach:</b> Do not memorise isolated facts only. Connect the idea to examples, explain it in your own words and practise using it in unfamiliar situations.</div></section><section><h2>✏️ Worked Approach & Examples</h2>${data.examples.map((x,i)=>`<div class="example"><b>Example ${i+1}</b><br>${x}</div>`).join('')}<div class="diagram">${s==='Mathematics'?'Known information → Method/Representation → Working → Answer → Check':s==='Science'?'Observation → Question → Prediction → Investigation → Evidence → Conclusion':'Problem → Plan → Tool/Algorithm → Test → Improve → Responsible use'}</div></section><section><h2>🌍 Real-Life Application</h2><p>${data.real}</p></section><section><h2>🧪 Practical Activity</h2><p>${data.activity}</p></section><section><h2>⚠️ Common Mistakes</h2><div class="mistake"><ul>${data.mistakes.map(x=>`<li>${x}</li>`).join('')}</ul></div></section><section><h2>🧠 Quick Revision</h2><p>${data.revision}</p></section><section><h2>📝 50 Application Questions</h2><p class="muted">Questions are arranged from understanding to application, reasoning and challenge. Use your exercise book for working.</p>${questions.map(x=>`<div class="question"><strong>${x.q}</strong><button class="btn btn-outline" onclick="this.nextElementSibling.classList.toggle('hidden')">Show marking guide</button><div class="answer hidden">${x.a}</div></div>`).join('')}</section><div class="actions"><button class="btn btn-primary" onclick="completeTopic('${key.replace(/'/g,"\\'")}')">${state.progress[key]?'✓ Completed':'Mark Topic Complete'}</button><button class="btn btn-outline" onclick="renderTopics('${c}','${s}')">Back to Topics</button></div></article><div class="footer">Use this handbook alongside your teacher's lessons, approved learning materials and school assessments.</div>`}
+function openTopic(c,s,t){const data=topicContent(c,s,t);const key=`${c}|${s}|${t}`;const questions=makeQuestions(c,s,t);document.getElementById('app').innerHTML=`<div class="breadcrumb"><span class="crumb" onclick="goHome()">Home</span> › <span class="crumb" onclick="renderSubjects('${c}')">${c}</span> › <span class="crumb" onclick="renderTopics('${c}','${s}')">${s}</span> › <b>${t}</b></div><article class="lesson"><h1>${t}</h1><div class="chips"><span class="pill">${c}</span><span class="pill">${s}</span><span class="pill">Curriculum-informed</span></div><section><h2>📖 Study Notes</h2><p>${data.concept}</p><div class="note"><b>Study approach:</b> Do not memorise isolated facts only. Connect the idea to examples, explain it in your own words and practise using it in unfamiliar situations.</div></section><section><h2>✏️ Worked Approach & Examples</h2>${data.examples.map((x,i)=>`<div class="example"><b>Example ${i+1}</b><br>${x}</div>`).join('')}<div class="diagram">${s==='Mathematics'?'Known information → Method/Representation → Working → Answer → Check':s==='Science'?'Observation → Question → Prediction → Investigation → Evidence → Conclusion':'Problem → Plan → Tool/Algorithm → Test → Improve → Responsible use'}</div></section><section><h2>🌍 Real-Life Application</h2><p>${data.real}</p></section><section><h2>🧪 Practical Activity</h2><p>${data.activity}</p></section><section><h2>⚠️ Common Mistakes</h2><div class="mistake"><ul>${data.mistakes.map(x=>`<li>${x}</li>`).join('')}</ul></div></section><section><h2>🧠 Quick Revision</h2><p>${data.revision}</p></section><section><h2>📝 50 Application Questions</h2><p class="muted">Questions are arranged from understanding to application, reasoning and challenge. Use your exercise book for working.</p>${questions.map(x=>`<div class="question"><strong>${x.q}</strong><button class="btn btn-outline" onclick="this.nextElementSibling.classList.toggle('hidden')">Show marking guide</button><div class="answer hidden">${x.a}</div></div>`).join('')}</section><div class="actions"><button class="btn btn-primary" onclick="completeTopic('${key.replace(/'/g,"\\'")}')">${state.progress[key]?'✓ Completed':'Mark Topic Complete'}</button><button class="btn btn-outline" onclick="renderTopics('${c}','${s}')">Back to Topics</button></div></article><div class="footer">Use this handbook alongside your teacher's lessons, approved learning materials and school assessments.</div>`}
 function completeTopic(key){state.progress[key]=true;save();toast('Topic marked complete ✓');}
 function showProfile(){document.getElementById('app').innerHTML=`<div class="breadcrumb"><span class="crumb" onclick="goHome()">Home</span> › <b>Profile</b></div><div class="hero"><h1>Student Profile</h1><p>Your profile is stored only on this device.</p></div><div class="card"><div class="profile"><div><label>Student name</label><input class="input" id="pname" value="${state.profile.name||''}" placeholder="Enter your name"></div><div><label>School</label><input class="input" id="pschool" value="${state.profile.school||''}" placeholder="School name"></div></div><div class="actions"><button class="btn btn-primary" onclick="saveProfile()">Save Profile</button><button class="btn btn-outline" onclick="goHome()">Cancel</button></div><hr><p><b>Current class:</b> ${state.class||'Not selected'}</p><p><b>Completed topics:</b> ${Object.values(state.progress).filter(Boolean).length}</p></div>`}
 function saveProfile(){state.profile.name=document.getElementById('pname').value.trim();state.profile.school=document.getElementById('pschool').value.trim();save();toast('Profile saved');goHome()}
